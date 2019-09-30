@@ -1,0 +1,17 @@
+.link .remove_link {
+  	margin-top : 5px;
+  	margin-bottom : 20px;
+  	margin-right : 10px;
+}
+
+.hidden-icon-container .hidden-icon {
+	font-size: 17px;
+}
+
+.hidden-icon-container {
+	margin-bottom: 5px;
+}
+
+.icon {
+	margin-left: 5px;
+}

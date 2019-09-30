@@ -1,0 +1,10 @@
+{
+	"groups":[
+		{
+			"tab_name":"test",
+			"urls": [["네이버","www.naver.com"]] ,
+			"actived" : true
+		}
+
+	]
+}
