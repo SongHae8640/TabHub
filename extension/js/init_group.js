@@ -5,14 +5,17 @@ var tempGroup;
 var temp
 var storedTabGroups
 var cookieTabGroups
+var addTabGroupBtn
 
-
+var test;
 
 
 
 $(document).ready(function(){
 
-  init();
+  bindVariable();
+
+  getTabGroups();
   initEventListener();
   clickTabGroupTitle();
   clickTabTitle();
@@ -22,59 +25,51 @@ $(document).ready(function(){
 })
 
 //------------------------------function area-------------------------
-function init(){
-  repos = $('#repositoryPlace');
 
+//bind variable
+var bindVariable = function(){
+  addTabGroupBtn = $('#addTabGroupBtn'); 
+  repos = $('#tabGroups');
+}
+
+var getTabGroups = function(){
   chrome.storage.sync.get(['key'], function(result) {
     storedTabGroups = result.key;
     console.log(storedTabGroups);    
-    renewRepository(storedTabGroups);
+    
+
+    (storedTabGroups);
   });
 
 
-
+  chrome.storage.sync.get(['tabGroup'],function(result){
+    console.log(result);
+  });
 }
 
 function initEventListener(){
   //add tab group
-  var addTabGroupBtn = $('#addTabGroupBtn');
+  
   addTabGroupBtn.on('click', function(){
     addTabGroup();
   })
 
-  //clear tab group
-  var clearTabGroupsBtn = $('#clearTabGroupsBtn');
-  clearTabGroupsBtn.on('click', function(){
-    clearTabGroups();
-    clearRepository();
-  })
-
-  //
-  var showTabGroupsBtn = $('#showTabGroupsBtn');
-  showTabGroupsBtn.on('click', function(){
-    showTabGroups();
-  })
-
-  var testBtn = $("#testBtn");
-  testBtn.on("click", function(){
-    testTest();
-  })
 }
 
 function clickTabGroupTitle(){
-  //var clickedTabGroupTittleBtn = $('#repositoryPlace > li') //이렇게 하면 모든 버튼을 클릭할때 사용됨
+  //var clickedTabGroupTittleBtn = $('#tabGroups > li') //이렇게 하면 모든 버튼을 클릭할때 사용됨
 
   //동적으로 생성된 엘리먼트에 접글할때는 이렇게 해야함 
-  $(document).on("click",'#repositoryPlace > li > .tabGroupTitleBtn', function(){
+  $(document).on("click",'#tabGroups > li > .tabGroupTitleBtn', function(){
     openTabGroup(this.innerText);
   })
 
-  $(document).on('click',"#repositoryPlace > li > input[type='checkbox']",function(){
+  $(document).on('click',"#tabGroups > li > input[type='checkbox']",function(){
     $(this.nextSibling).toggle()
     
   });
 
-  $(document).on("click",'#repositoryPlace > li > .deletTabGroupBtn', function(){
+  $(document).on("click",'#tabGroups > li > .deletTabGroupBtn', function(){
     deletTabGroup(this.nextSibling.innerText);
   })
 
@@ -82,7 +77,7 @@ function clickTabGroupTitle(){
 
 function clickTabTitle(){
   //동적으로 생성된 엘리먼트에 접글할때는 이렇게 해야함 
-  $(document).on("click",'#repositoryPlace > li > p > a', function(){
+  $(document).on("click",'#tabGroups > li > p > a', function(){
     console.log('click a', this.href)
     chrome.tabs.create({ url: this.href });
   });
@@ -122,14 +117,9 @@ function deletTabGroup(tabGroupTitle){
 //------------------------------initEventListener function area-------------------------
 
 
-function testTest(){
-
-}
-
-
 function addTabGroup(){
   //그룹 이름을 가져옴
-  this.tabGroupName = $('#groupName');
+  this.tabGroupName = $('#newTabGroupTitle');
   var url_matrix =[] ;
   var group
   //url과 title 가져옴 
@@ -151,7 +141,7 @@ function addTabGroup(){
 function clearRepository(){
   //repos를 초기화
   //나중에는 > li가 아아니라  > . 로 지정된 class를 제거 해주자 
-  $("#repositoryPlace > li").remove();
+  $("#tabGroups > li").remove();
 
 }
 
@@ -228,15 +218,6 @@ function renewRepository(groups){
       )
       //console.log(groups[i].groupUrls[j][0])
     }
-
-
-
-
-    //$(iGroup).append(
-    //  $('<input/>',{
-    //    type = 'checkbox'
-    //  })
-    //)
   } 
 }
 
@@ -266,13 +247,4 @@ function chromeStorageSet(groups, case_char){
           console.log("default");
       }
     });
-}
-
-function clearTabGroups(){
-  chromeStorageSet(storedTabGroups = [],'c'); // c = clear
-   
-}
-
-function showTabGroups(){
-  console.log(storedTabGroups);
 }

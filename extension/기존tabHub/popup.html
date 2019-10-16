@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+  <head>
+    
+    <script src="/js/lib/jquery-3.3.1.js"></script>
+    <meta charset="utf-8">
+
+      <style>
+          body{
+            width : 400px;
+            padding : 1rem;
+          }
+          textarea{
+            width :100%;
+            font-size : 2rem;
+          }
+          #result{
+            font-size: 2.5rem
+          }
+          .border{
+            border: 1px solid black
+          }
+          
+
+          /*one tab group*/
+          
+          h3.oneTabTitle {
+            font-size: 15px;
+            white-space: nowrap; 
+            width: 300px; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            color : blue;
+          }
+          cite.oneTabUrl{
+            font-size: 10px;
+            white-space: nowrap; 
+            width: 300px; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            color : green;
+          }
+      </style>
+  </head>
+  <body>
+    <div class="border">
+      <h1>Tab Hub</h1>      
+    </div>
+
+    <div class="border">
+      <div>
+        <h2>Repository</h2>  
+      </div>
+      <div id = "repositoryPlace">
+      </div>
+    </div>
+
+    <div class="border">
+      <h2>init group</h2>
+
+      <input type="text"  id="groupName" class='txt' placeholder="Chosse a title">
+      <input type="button" value="add" id="addTabGroupBtn" >
+      <input type="button" value="clear" id="clearTabGroupsBtn" >
+      <input type="button" value="show" id="showTabGroupsBtn" >
+      <input type = "button" id ="testBtn" value="testBtn">
+      
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <script src="/js/init_group.js"></script> 
+    <script src="/js/handleGroup.js"></script>
+      <!--스크립트에서 user를 사용하기 때문에  user를 생성한곳 밑에 놔야함 -->
+    <!--<script src="/js/handleGroup"></script> -->
+
+  
+
+
+
+  </body>
+</html>

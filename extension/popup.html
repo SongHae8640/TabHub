@@ -1,69 +1,236 @@
 <!doctype html>
 <html>
-  <head>   
+  <head>
     <meta charset="utf-8">
     <style>
         body{
           width : 400px;
           padding : 1rem;
         }
-        textarea{
-          width :100%;
-          font-size : 2rem;
-        }
-        #result{
-          font-size: 2.5rem
-        }
-        .border{
+                  
+        .container{
           border: 1px solid black
         }
-        
 
-        /*one tab group*/
-        
-        h3.oneTabTitle {
-          font-size: 15px;
-          white-space: nowrap; 
-          width: 300px; 
-          overflow: hidden;
-          text-overflow: ellipsis; 
-          color : blue;
-        }
-        cite.oneTabUrl{
-          font-size: 10px;
-          white-space: nowrap; 
-          width: 300px; 
-          overflow: hidden;
-          text-overflow: ellipsis; 
-          color : green;
-        }
     </style>
-    <script src="/js/lib/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/lib/bootstrap-4.3.1/bootstrap.css">
+    
+    <script src= "https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity= "sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin= "anonymous" ></script>
+    <script src= "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity= "sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin= "anonymous" ></script>
+    <script type="text/javascript" src="/js/lib/bootstrap/bootstrap.js"></script> 
+
     <script src="/js/init_group.js"></script> 
     <script src="/js/handleGroup.js"></script>
   </head>
   <body>
-    <div class="border">
-      <h1>Tab Hub</h1>      
+    <header>
+      <div>
+        <img src="" id="logo">
+      </div>
+    </header>
+
+    <div class="container" id="auth-status">
+
+      <!-- 로그인 되어 있으면 사용자 이름, 안되어 있으면 button들이 뜸-->
+      <div>사용자 이름</div>
+      <button>Logout</button>
+
+      <!-- button 을 누르면  탭모드 사라지고 auth 모드로 (페이지 아예 전환) -->
+      <button>Login</button>
+      <button>Join</button>
+      <span><br>login시 저장된 탭들을 어느 pc에서나 사용 가능합니다.</span>
     </div>
 
-    <div class="border">
-      <h2>Repository</h2>  
-      <div id = "tabGroups">
+    <div class="container" id="auth-login">
+      <form>
+        <div class="form-group row">
+          <label for="id" class="col-2 col-form-label">ID</label>
+          <div class="col-10">
+            <input type="text" class="form-control" id="id" placeholder="ID">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="password" class="col-2 col-form-label">PW</label>
+          <div class="col-10">
+            <input type="password" class="form-control" id="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-10">
+            <button type="submit" class="btn btn-primary">login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container" id="auth-join">
+      <form>
+        <div class="form-group row">
+          <label for="id" class="col-2 col-form-label">ID</label>
+          <div class="col-8">
+            <input type="text" class="form-control" id="id" placeholder="ID">
+          </div>
+          <button type="submit" class="col-2 btn btn-primary">중복확인</button>
+        </div>
+        <div class="form-group row">
+          <label for="password" class="col-2 col-form-label">PW</label>
+          <div class="col-10">
+            <input type="password" class="form-control" id="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="re-password" class="col-2 col-form-label">re-PW</label>
+          <div class="col-10">
+            <input type="password" class="form-control" id="re-password" placeholder="re-password">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="email" class="col-2 col-form-label">Email</label>
+          <div class="col-8">
+            <input type="email" class="form-control" id="email" placeholder="email">
+          </div>
+          <button type="submit" class="col-2 btn btn-primary">인증하기</button>
+        </div>
+        <div class="form-group row">
+          <label for="auth-code" class="col-2 col-form-label">auth-code</label>
+          <div class="col-8">
+            <input type="text" class="form-control" id="auth-code" placeholder="auth-code">
+          </div>
+          <button type="submit" class="col-2 btn btn-primary">check</button>
+        </div>
+        <div class="form-group row">
+          <div class="col-10">
+            <button type="submit" class="btn btn-primary">join</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container" id="tabs" style="display: none;">
+      <!--로그아웃 상태일시 로컬에 있는 탭스를 가져옴-->
+      <!--로그인 상태일시 로컬 더하기 외부저장소의 합집합 탭스를 가져옴 --> 
+
+      <div id="tabs-menu" class="row">
+        <div id="favorite-tabs-menu" class="col-2">
+          <button>★</button>favorite
+        </div>
+        <div id="storage-tabs-menu" class="col-2">
+          <button>■</button>storage
+        </div>
+        <div id="message-tabs-menu" class="col-2 offset-6">
+          <span id="message-TG-count" class="badge badge-danger">5</span>
+          <button>□</button>message
+          
+        </div>
+      </div>
+
+      <div id="favorite-tabs">
+
+        <!-- TG가 반복  --> 
+        <div class="TG row">
+          <div class="col-6">
+            <span class="TG-title">title</span>
+            <span class="TG-tabs-count">14</span>tabs
+            <input class="btn-show-detail" type="checkbox">  
+          </div>
+          
+          <!--onHover-->
+          <div class="col-6 container">
+            <div class="row">
+              <button class="btn-save-TG col-4">storage</button>
+              <button class="btn-share-TG col-4">share</button>
+              <button class="btn-delete-TG col-4">delete</button>
+            </div>
+          </div>
+          <!--공유시 나타나는 영역-->
+          <div class="share-box container">
+            <div class="row">
+              <div class="col-5 offset-1">
+                <input type="checkbox" name="">
+                <span>Share to Someone</span>
+              </div>
+              <div class="col-5">
+                <input type="checkbox" name="">
+                <span>Upload to TabHub</span>
+              </div>
+            </div>
+            <div class="row">
+              <input type="text" class="col-8 offset-1" name="" placeholder="">
+              <button class="col-2">share</button>
+            </div>
+            <div class="row">
+              <textarea class="col-10 offset-1"></textarea>
+              <button class="col-2 offset-5">upload</button>
+            </div>
+          </div>
+
+          <!-- btn-show-detail 또는 외부를 클릭했을때 -->
+          <div class="TG-tabs container">
+            <div class="TG-tab row">
+              <button class="btn-move-tab col-1 offset-1">※</button>
+              <span class="TG-tab-title col-8">title</span>
+              <button class="btn-delete-tab col-1">x</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 
+          ...TG 반복
+        -->
+
+        <div id="add-TG-row" class="row">
+          <input type="text" id="new-TG-title" placeholder="New TabGroup Title" class="col-10">
+          <button id="btn-add-TG" class="col-2">+</button>
+        </div>
 
       </div>
-    </div>
 
-    <div class="border">
-      <h2>add tab group</h2>
-      <input type="text"  id="newTabGroupName" class='txt' placeholder="Chosse a title">
-      <input type="button" value="add" id="addTabGroupBtn" >
-    </div>
+      <div id="storage-tabs">
+        <!-- #favoriteTabs 과 동일-->
+        
+      </div>
 
-    <div>
-      
+      <!-- #favoriteTabs 과 거의 동일하나 버튼만 다름 -->
+      <div id="message-tabs">
+        
+        <div class="TG row">
+          <div class="col-6">
+            <span class="TG-title">title</span>
+            <span class="TG-tabs-count">14</span>tabs
+            <input class="btn-show-detail" type="checkbox">  
+          </div>
+          
+          <!--onHover-->
+          <div class="col-6 container">
+            <div class="row">
+              <button class="btn-favorite-TG col-4">favorite</button>
+              <button class="btn-save-TG col-4">storage</button>
+              <button class="btn-delete-TG col-4">delete</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
     
+
   </body>
+
+
+  <!-- clone할 tabGroup -->
+  <div class="tabGroup row" id="tabGroupTemplate" style="display: none;">
+    <button class="deletTabGroupBtn col">delete</button>
+    <span class="tabGroupTitle col">title</span>
+    <input class="tabDetailsCB col" type="checkbox">
+    <div class="tabs container">
+      
+    </div>
+  </div>
+
+  <!-- clone할 tab -->
+  <a class="tab row" id="tabTemplate" href="#" title="tabName" style="display: none;">tabName</a>
 </html>
