@@ -1,39 +1,13 @@
 export default {
   data: [],
-
-  test(){
-
-
-    return this.getData(this.data)
-  },
-
-  addData(newTitle){
-    return new Promise((resolve, reject) =>{
-      this.createNewTabGroup(newTitle)
-      console.log(this.data)
-      resolve(this.data)
-    })
-
-
-    // return new Promise((resolve, reject) =>{
-    //   this.createNewTabGroup(newTitle).then(
-    //   this.sortDataByDate(this.data)).then(
-    //   this.setData(this.data))
-    //   resolve(this.data)
-    // })
-
-    // return new Promise((resolve, reject) =>{
-    //   const resolvedPromise = new Promise(resolve => resolve(this.createNewTabGroup(newTitle)));
-    //   resolvedPromise.then(
-    //   this.sortDataByDate(this.data)).then(
-    //   this.setData(this.data))
-    //   resolve(this.data)
-    // })   
-  },
+  newTitle : '',
   getData() {
     return new Promise((resolve, reject) => {
-      chrome.storage.sync.get(['key'], function(result){
+      chrome.storage.local.get(['key'], function(result){
+        
+        if(!result.key) result.key = []
         this.data = result.key
+
 
         if (this.data.length >= 0) {
           console.log(this.data)
@@ -45,11 +19,18 @@ export default {
       })      
     });
   },
-  
-  createNewTabGroup(newTitle = '') {
-    
 
-    return new Promise((resolve, reject) =>{
+  addCreatedData(newTitle){
+    this.createNewTabGroup(newTitle)
+      .then(this.sortDataByDate)
+      .then(this.setData)
+      .then(result =>{
+        this.data = result
+        console.log(this.data)
+      })
+  },
+  createNewTabGroup(newTitle) {
+    return new Promise(function(resolve, reject) {
       if(!newTitle) reject('failure createNewTabGroup()')
       newTitle = newTitle.trim()
 
@@ -59,6 +40,7 @@ export default {
                   isOpen : false,
                   useDate : new Date()
                 }
+
       chrome.tabs.getAllInWindow(function(newTabs){
         if(newTabs.length === 0) return
 
@@ -68,40 +50,28 @@ export default {
         }
         this.data.push(newTabGroup)
 
-        if (this.data.length >= 0) {
-          console.log(this.data)
-          resolve(this.data)
-        }
-        else {
-          reject('failure createNewTabGroup()')
-        }
+        resolve(this.data)
       })
-    })
-    
+    })  
   },  
   remove(tabGroupId) {
     this.data = this.data.filter(item => item.id !== tabGroupId)
   },
 
   sortDataByDate(data){
-    console.log(data, "sortDataByDate()");
-    this.data = data
     return new Promise((resolve, reject) =>{
-      this.data.sort(function(a,b){
+      data.sort(function(a,b){
         var dateA = new Date(a['useDate']).getTime();
         var dateB = new Date(b['useDate']).getTime();
         return dateA < dateB ? 1 : -1;
       })
-      resolve(this.data)
-    })
-    
+      resolve(data)
+    })    
   },
 
   setData(data){
-    console.log(data, "setData()");
-    this.data = data
     return new Promise((resolve, reject) =>{
-      chrome.storage.sync.set({key : this.data}, function(){
+      chrome.storage.local.set({key : data}, function(){
        if (this.data.length >= 0) {
           resolve(this.data)
         }
@@ -110,8 +80,5 @@ export default {
         }
       })
     })
-    
-  }
-
-
+  },
 }

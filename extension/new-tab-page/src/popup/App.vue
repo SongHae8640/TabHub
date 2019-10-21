@@ -60,7 +60,7 @@
     		this.selectedTabsMenu = tabsMenu
     	},
       onAddTabGroup(title){
-        FavoriteTabGroupsModel.addData(title)
+        FavoriteTabGroupsModel.addCreatedData(title)
       },
 
       fetchStorageTabGroups(){
@@ -69,7 +69,7 @@
         })
       },
       fetchFavoriteTabGroups(){
-        FavoriteTabGroupsModel.test().then(data =>{
+        FavoriteTabGroupsModel.getData().then(data =>{
           this.favoriteTabGroups = data
         })
       },
