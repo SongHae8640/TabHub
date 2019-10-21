@@ -10,6 +10,8 @@
   		<div v-else>
   			<div v-if="selectedTabsMenu == tabsMenu[0]">
           <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]"></tab-group-list>
+          <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup"></tab-group-add-box>
+
 		  	</div>
 		  	<div v-else>
           <tab-group-list v-bind:data="storageTabGroups" v-bind:type="tabsMenu[1]"></tab-group-list>
@@ -30,12 +32,14 @@
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
+  import TabGroupAddBoxComponent from './components/TabGroupAddBoxComponent.vue'
 
   export default {
   	name :'app',
     data () {
       return {
       	tabsMenu : ['Favorite', 'Storage', 'Message'],
+        newTabGroupTitle : '',
       	selectedTabsMenu : '',
         favoriteTabGroups : [],
         storageTabGroups : [],
@@ -44,6 +48,7 @@
     components :{
     	'tabs-menu' : TabMenuComponent,
       'tab-group-list' : TabGroupListComponent,
+      'tab-group-add-box' : TabGroupAddBoxComponent,
     },
     created(){
     	this.selectedTabsMenu = this.tabsMenu[0]
@@ -54,15 +59,17 @@
     	onClickTabsMenu(tabsMenu){
     		this.selectedTabsMenu = tabsMenu
     	},
+      onAddTabGroup(title){
+        FavoriteTabGroupsModel.addData(title)
+      },
 
       fetchStorageTabGroups(){
         StorageTabGroupsModel.list().then(data =>{
           this.storageTabGroups = data
-          console.log(data)
         })
       },
       fetchFavoriteTabGroups(){
-        FavoriteTabGroupsModel.list().then(data =>{
+        FavoriteTabGroupsModel.test().then(data =>{
           this.favoriteTabGroups = data
         })
       },

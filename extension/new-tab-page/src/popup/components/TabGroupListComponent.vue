@@ -2,14 +2,15 @@
 	<div v-if="data.length">
 		<div v-for="tabGroup in data">
 			<div class="TG row">
-          <div class="col-6">
+          <div class="col-8">
+          	<button v-on:click="onOpenTabGroup(tabGroup.i)">open</button>
             <span class="TG-title">{{tabGroup.title}}</span>
             <span class="TG-tabs-count">{{tabGroup.tabs.length}}</span>tabs
-            <input class="btn-show-detail" type="checkbox" v-on:click="toggleOpenTabs(tabGroup)">
+            <input class="btn-show-detail" type="checkbox" v-bind:checked="tabGroup.isOpen" v-on:click="toggleOpenTabs(tabGroup)">
           </div>
           
           <!--onHover-->
-          <div class="col-6 container">
+          <div class="col-4 container">
             <div class="row">
               <button class="btn-save-TG col-4">storage</button>
               <button class="btn-share-TG col-4">share</button>
@@ -53,6 +54,9 @@
 			},
 			toggleOpenTabs(tabGroup){
 				tabGroup.isOpen = !tabGroup.isOpen
+			},
+			onOpenTabGroup(){
+
 			},
 		}
 	}

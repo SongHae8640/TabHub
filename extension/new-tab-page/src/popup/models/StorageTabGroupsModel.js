@@ -6,7 +6,7 @@ export default {
         {title : '네이버', url : 'https://www.naver.com'},
         {title : '구글', url : 'https://www.google.com'},
       ],
-      isOpen : false,
+      isOpen : true,
     },
     { id : 2 , 
       title : '두번쨰',
@@ -23,6 +23,14 @@ export default {
         {title : '구글', url : 'https://www.google.com'},
       ],
       isOpen : false,
+    },
+    { id : 4 , 
+      title : '네번쨰',
+      tabs:[
+        {title : '야후', url : 'https://www.naver.com'},
+        {title : '구글', url : 'https://www.google.com'},
+      ],
+      isOpen : true,
     },
   ],
 
