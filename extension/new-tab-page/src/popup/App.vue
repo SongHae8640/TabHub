@@ -9,7 +9,7 @@
   		</div>
   		<div v-else>
   			<div v-if="selectedTabsMenu == tabsMenu[0]">
-          <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]" v-on:@delete="onDeleteTabGroup"></tab-group-list>
+          <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup"></tab-group-list>
           <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup"></tab-group-add-box>
 
 		  	</div>
@@ -62,8 +62,12 @@
       onAddTabGroup(title){
         FavoriteTabGroupsModel.addCreatedData(title)
       },
-      onDeleteTabGroup(index){
-        FavoriteTabGroupsModel.deleteData(index).then(this.fetchFavoriteTabGroups)
+      onDeleteTabGroup(tabGroupId){
+        FavoriteTabGroupsModel.deleteData(tabGroupId).then(
+          this.fetchFavoriteTabGroups)
+      },
+      onChangeTabGroup(data){
+        FavoriteTabGroupsModel.changeData
       },
       fetchStorageTabGroups(){
         StorageTabGroupsModel.list().then(data =>{

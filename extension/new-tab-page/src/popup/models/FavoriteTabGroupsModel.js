@@ -9,7 +9,6 @@ export default {
         this.data = result.key
 
         if (this.data.length >= 0) {
-          console.log(this.data, this)
           resolve(this.data)
         }
         else {
@@ -20,26 +19,23 @@ export default {
   },
 
   addCreatedData(newTitle){
-    console.log(this.data)
     this.createNewTabGroup(newTitle)
       .then(this.sortDataByDate)
       .then(this.setData)
       .then(result =>{
         this.data = result
-        console.log(this.data, this)
       })
   },
   createNewTabGroup(newTitle) {
-    console.log(this.data, this)
     return new Promise(function(resolve, reject) {
       if(!newTitle) reject('failure createNewTabGroup()')
       newTitle = newTitle.trim()
 
-      let newTabGroup ={id :0,
+      let newTabGroup ={id :new Date().getTime(),
                   title : newTitle,
                   tabs:[],
                   isOpen : false,
-                  useDate : new Date()
+                  useDate : new Date().getTime()
                 }
       chrome.tabs.getAllInWindow(function(newTabs){
         if(newTabs.length === 0) return
@@ -49,22 +45,20 @@ export default {
           newTabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url})
         }
 
-        console.log(this.data, this)
         this.data.push(newTabGroup)
-        console.log(this.data, this)
         resolve(this.data)
       })
     })  
   },  
-  deleteData(index) {
+  deleteData(tabGroupId) {
     return this.getData().then(data =>{
-      this.filterData(index, data)
+      this.filterData(tabGroupId, data)
     })
   },
 
-  filterData(index, data){
+  filterData(tabGroupId, data){
     return new Promise((resolve,reject) =>{
-        window.data = data.filter(item => item !== data[index])
+        window.data = data.filter(item => item.id !== tabGroupId)
         resolve(window.data)
     }).then(this.setData)
   },
@@ -73,9 +67,7 @@ export default {
   sortDataByDate(data){
     return new Promise((resolve, reject) =>{
       data.sort(function(a,b){
-        var dateA = new Date(a['useDate']).getTime();
-        var dateB = new Date(b['useDate']).getTime();
-        return dateA < dateB ? 1 : -1;
+        return a['useDate'] < b['useDate'] ? 1 : -1;
       })
       resolve(data)
     })    
