@@ -7,6 +7,7 @@ export default {
         {title : '구글', url : 'https://www.google.com'},
       ],
       isOpen : true,
+      usedDate : new Date()
     },
     { id : 2 , 
       title : '두번쨰',
@@ -15,6 +16,7 @@ export default {
         {title : '다음', url : 'https://www.google.com'},
       ],
       isOpen : false,
+      usedDate : new Date()
     },
     { id : 3 , 
       title : '세번쨰',
@@ -23,6 +25,7 @@ export default {
         {title : '구글', url : 'https://www.google.com'},
       ],
       isOpen : false,
+      usedDate : new Date()
     },
     { id : 4 , 
       title : '네번쨰',
@@ -31,6 +34,7 @@ export default {
         {title : '구글', url : 'https://www.google.com'},
       ],
       isOpen : true,
+      usedDate : new Date()
     },
   ],
 

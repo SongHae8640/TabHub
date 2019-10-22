@@ -8,9 +8,8 @@ export default {
         if(!result.key) result.key = []
         this.data = result.key
 
-
         if (this.data.length >= 0) {
-          console.log(this.data)
+          console.log(this.data, this)
           resolve(this.data)
         }
         else {
@@ -21,15 +20,17 @@ export default {
   },
 
   addCreatedData(newTitle){
+    console.log(this.data)
     this.createNewTabGroup(newTitle)
       .then(this.sortDataByDate)
       .then(this.setData)
       .then(result =>{
         this.data = result
-        console.log(this.data)
+        console.log(this.data, this)
       })
   },
   createNewTabGroup(newTitle) {
+    console.log(this.data, this)
     return new Promise(function(resolve, reject) {
       if(!newTitle) reject('failure createNewTabGroup()')
       newTitle = newTitle.trim()
@@ -40,7 +41,6 @@ export default {
                   isOpen : false,
                   useDate : new Date()
                 }
-
       chrome.tabs.getAllInWindow(function(newTabs){
         if(newTabs.length === 0) return
 
@@ -48,15 +48,27 @@ export default {
           //console.log(newTabs[i].title, newTabs[i].url)
           newTabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url})
         }
-        this.data.push(newTabGroup)
 
+        console.log(this.data, this)
+        this.data.push(newTabGroup)
+        console.log(this.data, this)
         resolve(this.data)
       })
     })  
   },  
-  remove(tabGroupId) {
-    this.data = this.data.filter(item => item.id !== tabGroupId)
+  deleteData(index) {
+    return this.getData().then(data =>{
+      this.filterData(index, data)
+    })
   },
+
+  filterData(index, data){
+    return new Promise((resolve,reject) =>{
+        window.data = data.filter(item => item !== data[index])
+        resolve(window.data)
+    }).then(this.setData)
+  },
+
 
   sortDataByDate(data){
     return new Promise((resolve, reject) =>{
