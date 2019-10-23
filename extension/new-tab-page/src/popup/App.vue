@@ -9,7 +9,7 @@
   		</div>
   		<div v-else>
   			<div v-if="selectedTabsMenu == tabsMenu[0]">
-          <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup"></tab-group-list>
+          <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" v-on:@addTab="onAddTab" v-on:@sort="onSortTabGroup"></tab-group-list>
           <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup"></tab-group-add-box>
 
 		  	</div>
@@ -66,8 +66,17 @@
         FavoriteTabGroupsModel.deleteData(tabGroupId).then(
           this.fetchFavoriteTabGroups)
       },
-      onChangeTabGroup(data){
-        FavoriteTabGroupsModel.changeData
+      onChangeTabGroup(tabGroup){
+        console.log("onChangeTabGroup",this.favoriteTabGroups)
+        FavoriteTabGroupsModel.changeData(tabGroup,this.favoriteTabGroups)
+      },
+      onSortTabGroup(tabGroup){
+        FavoriteTabGroupsModel.changeData(tabGroup, this.favoriteTabGroups).then(
+          this.fetchFavoriteTabGroups
+        )
+      },
+      onAddTab(tabGroup){
+        FavoriteTabGroupsModel.changeData(tabGroup,this.favoriteTabGroups)
       },
       fetchStorageTabGroups(){
         StorageTabGroupsModel.list().then(data =>{
@@ -76,6 +85,7 @@
       },
       fetchFavoriteTabGroups(){
         FavoriteTabGroupsModel.getData().then(data =>{
+          console.log(data)
           this.favoriteTabGroups = data
         })
       },

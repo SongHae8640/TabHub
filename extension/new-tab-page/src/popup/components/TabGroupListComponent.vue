@@ -7,7 +7,7 @@
             <span class="TG-title" v-show="!tabGroup.isOpen">{{tabGroup.title}}</span>
             <input type="text" v-model=tabGroup.title  v-show="tabGroup.isOpen" >
             <span class="TG-tabs-count">{{tabGroup.tabs.length}}</span>tabs
-            <input class="btn-show-detail" type="checkbox" v-bind:checked="tabGroup.isOpen" v-on:click="toggleOpenTabs(tabGroup),onChangeTabGroupTitle(tabGroup)" >
+            <input class="btn-show-detail" type="checkbox" v-bind:checked="tabGroup.isOpen" v-on:click="toggleOpenTabs(tabGroup),onChangeTabGroup(tabGroup)" >
           </div>
           
           <!--onHover-->
@@ -21,14 +21,22 @@
           <div class="TG-tabs container"  v-show="tabGroup.isOpen">
           	<div class="TG-tab row">
           		<button class="btn-delete-TG col-3 offset-3" v-on:click="onDeleteTabGroup(tabGroup.id)">delete</button>
-          		<button class="btn-sync-TG col-3">sync</button>
+          		<button class="btn-sync-TG col-3" v-on:click="onSyncTabGroup(tabGroup)">sync</button>
           	</div>
-	            <div class="TG-tab row" v-for="tab in tabGroup.tabs">
-	              <button class="btn-move-tab col-1 offset-1">※</button>
-	              <span class="TG-tab-title col-8" v-bind:href="tab.url" v-on:click="openTab(tab.url)">{{tab.title}}</span>
-	              <button class="btn-delete-tab col-1">x</button>
-	            </div>
-	          </div>
+            <div class="TG-tab row" v-for="tab in tabGroup.tabs">
+              <button class="btn-move-tab col-1 offset-1">※</button>
+              <span class="TG-tab-title col-7" v-bind:href="tab.url" v-on:click="openTab(tab.url)" v-show="!tab.isEditMode">{{tab.title}}</span>
+              <input type="text" v-model=tab.title v-show="tab.isEditMode">
+
+              <button class="col-1" v-show="tab.isEditMode" v-on:click="toggleEditMode(tab) , onChangeTabGroup(tabGroup)">save</button>
+              <button class="col-1" v-show="!tab.isEditMode" v-on:click="toggleEditMode(tab)">edit</button>
+              <button class="btn-delete-tab col-1">x</button>
+            </div>
+            <div class="TG-tab row">
+            	<input type="text" id="new-tab-url" placeholder="New Tab Url" class="col-9 offset-1" v-model="newTabUrl">
+    					<button id="btn-add-tab" class="col-1" v-on:click="onAddTab(tabGroup)">+</button>
+            </div>
+	         </div>
         </div>
 
 		</div>
@@ -43,7 +51,7 @@
 
 <script>
 	export default{
-		props :['data', 'type'],
+		props :['data', 'type', 'newTabUrl'],
 		computed :{
 			favoriteType(){
 				return this.type === 'Favorite'
@@ -61,19 +69,43 @@
 			},
 			onOpenTabGroup(tabGroup){
 				//윈도우 생성의 url을 탭의 가장 마지막 껄로 해야 탭그룹의 탭 순서대로 나옴
-				chrome.windows.create({url : tabGroup.tabs[0].url},function (newWindow) {
-			        var id = newWindow.id;
-			        //가장 마지막 탭으로 윈도우를 열었기 때문에 마지막 탭 제외하고 생성된 윈도우에서 탭 열것
-			        for (var i = 1; i < tabGroup.tabs.length; i++) {
-			            chrome.tabs.create({"windowId": id, "url": tabGroup.tabs[i].url});
-			        }
-				})
+				// chrome.windows.create({url : tabGroup.tabs[0].url},function (newWindow) {
+			 //        var id = newWindow.id;
+			 //        //가장 마지막 탭으로 윈도우를 열었기 때문에 마지막 탭 제외하고 생성된 윈도우에서 탭 열것
+			 //        for (var i = 1; i < tabGroup.tabs.length; i++) {
+			 //            chrome.tabs.create({"windowId": id, "url": tabGroup.tabs[i].url});
+			 //        }
+				// })
+				tabGroup.useDate = new Date().getTime();
+				console.log("onOpenTabGroup", tabGroup)
+				this.$emit('@sort', tabGroup)
 			},
 			onDeleteTabGroup(tabGroupId){
 				this.$emit('@delete', tabGroupId)
 			},
-			onChangeTabGroupTitle(tabGroup){
+			onChangeTabGroup(tabGroup){
 				this.$emit('@change', tabGroup)
+			},
+			onAddTab(tabGroup){
+				tabGroup.tabs.push({title : this.newTabUrl , url : this.newTabUrl})
+				this.$emit('@addTab', tabGroup)
+				this.newTabUrl = ''
+			},
+			toggleEditMode(tab){
+				tab.isEditMode = !tab.isEditMode
+			},
+			onSyncTabGroup(tabGroup){
+				let _this = this
+				tabGroup.tabs = []
+				chrome.tabs.getAllInWindow(function(newTabs){
+	        if(newTabs.length === 0) return
+
+	        for (var i = 0; i< newTabs.length; i++) {
+	          //console.log(newTabs[i].title, newTabs[i].url)
+	          tabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url, isEditMode:false})
+	        }
+	        _this.$emit('@change', tabGroup) 
+	      })
 			},
 
 		}

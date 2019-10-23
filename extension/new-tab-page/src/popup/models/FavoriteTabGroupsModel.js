@@ -8,6 +8,13 @@ export default {
         if(!result.key) result.key = []
         this.data = result.key
 
+        for (var i = 0; i < this.data.length; i++) {
+          this.data[i].isOpen = false
+          for (var j = 0; j < this.data[i].tabs.length; j++) {
+            this.data[i].tabs[j].isEditMode = false
+          }
+        }
+
         if (this.data.length >= 0) {
           resolve(this.data)
         }
@@ -15,7 +22,7 @@ export default {
           reject('failure reason')
         }
       })      
-    });
+    })
   },
 
   addCreatedData(newTitle){
@@ -42,13 +49,13 @@ export default {
 
         for (var i = 0; i< newTabs.length; i++) {
           //console.log(newTabs[i].title, newTabs[i].url)
-          newTabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url})
+          newTabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url, isEditMode:false})
         }
 
         this.data.push(newTabGroup)
         resolve(this.data)
       })
-    })  
+    })
   },  
   deleteData(tabGroupId) {
     return this.getData().then(data =>{
@@ -58,11 +65,31 @@ export default {
 
   filterData(tabGroupId, data){
     return new Promise((resolve,reject) =>{
-        window.data = data.filter(item => item.id !== tabGroupId)
-        resolve(window.data)
+        data = data.filter(item => item.id !== tabGroupId)
+        resolve(data)
     }).then(this.setData)
   },
+  changeData(tabGroup,data){
+    return new Promise((resolve,reject) =>{
 
+      resolve(this.changeDataSet(tabGroup,data))
+    }) 
+  },
+  changeDataSet(tabGroup, data){
+    return new Promise((resolve, reject) =>{
+      let tempData =[]
+
+      for (var i = 0; i < data.length; i++) {
+        if(data[i].id === tabGroup.id){
+          tempData.push(tabGroup)
+        }else{
+          tempData.push(data[i])
+        }
+      }
+
+      resolve(tempData)
+    }).then(this.sortDataByDate).then(this.setData)
+  },
 
   sortDataByDate(data){
     return new Promise((resolve, reject) =>{
@@ -70,13 +97,14 @@ export default {
         return a['useDate'] < b['useDate'] ? 1 : -1;
       })
       resolve(data)
-    })    
+    })
   },
 
   setData(data){
     return new Promise((resolve, reject) =>{
       chrome.storage.local.set({key : data}, function(){
        if (this.data.length >= 0) {
+        console.log(this.data)
           resolve(this.data)
         }
         else {
