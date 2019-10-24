@@ -18,25 +18,27 @@
             </div>
           </div>
 
-          <div class="TG-tabs container"  v-show="tabGroup.isOpen">
+          <div class="TG-tabs container" v-show="tabGroup.isOpen" >
           	<div class="TG-tab row">
           		<button class="btn-delete-TG col-3 offset-3" v-on:click="onDeleteTabGroup(tabGroup.id)">delete</button>
           		<button class="btn-sync-TG col-3" v-on:click="onSyncTabGroup(tabGroup)">sync</button>
           	</div>
-            <div class="TG-tab row" v-for="tab in tabGroup.tabs">
-              <button class="btn-move-tab col-1 offset-1">※</button>
-              <span class="TG-tab-title col-7" v-bind:href="tab.url" v-on:click="openTab(tab.url)" v-show="!tab.isEditMode">{{tab.title}}</span>
-              <input type="text" v-model=tab.title v-show="tab.isEditMode">
+			  <draggable handle=".handle" v-model=tabGroup.tabs :move="checkMove(tabGroup)">
+				<div class="TG-tab row" v-for="tab in tabGroup.tabs">
+				<button class="btn-move-tab col-1 offset-1 handle" >※</button>
+				<span class="TG-tab-title col-7" v-bind:href="tab.url" v-on:click="openTab(tab.url)" v-show="!tab.isEditMode">{{tab.title}}</span>
+				<input type="text" v-model=tab.title v-show="tab.isEditMode">
 
-              <button class="col-1" v-show="tab.isEditMode" v-on:click="toggleEditMode(tab) , onChangeTabGroup(tabGroup)">save</button>
-              <button class="col-1" v-show="!tab.isEditMode" v-on:click="toggleEditMode(tab)">edit</button>
-              <button class="btn-delete-tab col-1">x</button>
-            </div>
+				<button class="col-1" v-show="tab.isEditMode" v-on:click="toggleEditMode(tab) , onChangeTabGroup(tabGroup)">save</button>
+				<button class="col-1" v-show="!tab.isEditMode" v-on:click="toggleEditMode(tab)">edit</button>
+				<button class="btn-delete-tab col-1">x</button>
+				</div>
+			 </draggable>
             <div class="TG-tab row">
             	<input type="text" id="new-tab-url" placeholder="New Tab Url" class="col-9 offset-1" v-model="newTabUrl">
     					<button id="btn-add-tab" class="col-1" v-on:click="onAddTab(tabGroup)">+</button>
             </div>
-	         </div>
+	       </div>
         </div>
 
 		</div>
@@ -50,8 +52,12 @@
 </template>
 
 <script>
+ import draggable from 'vuedraggable'
 	export default{
 		props :['data', 'type', 'newTabUrl'],
+		components:{
+			draggable
+		},
 		computed :{
 			favoriteType(){
 				return this.type === 'Favorite'
@@ -61,6 +67,9 @@
 			}
 		},
 		methods:{
+			checkMove(tabGroup){
+				this.$emit('@change', tabGroup)
+			},
 			openTab(url){
 				chrome.tabs.create({url : url})
 			},
