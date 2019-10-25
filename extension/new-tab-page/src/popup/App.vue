@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import ChromeTabGroupsModel from './models/ChromeTabGroupsModel.js'
+  import LocalTabGroupsModel from './models/LocalTabGroupsModel.js'
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
@@ -56,30 +56,30 @@
         return this.selectedTabsMenu === this.tabsMenu[0]
       },
       onAddTabGroup(title){
-        ChromeTabGroupsModel.addCreatedData(title)
+        LocalTabGroupsModel.addCreatedData(title)
       },
       async onDeleteTabGroup(tabGroupId){
-        await ChromeTabGroupsModel.deleteData(tabGroupId)
+        await LocalTabGroupsModel.deleteData(tabGroupId)
         this.fetchChromeTabGroups()
       },
       onChangeTabGroup(tabGroup){
-        ChromeTabGroupsModel.changeData(tabGroup)
+        LocalTabGroupsModel.changeData(tabGroup)
       },
       onChangeTabGroupTitle(tabGroup){
-        ChromeTabGroupsModel.changeData(tabGroup)
+        LocalTabGroupsModel.changeData(tabGroup)
         ///디비와 싱크 때 따로 타이틀만 수정하기
       },
       async onSortTabGroup(tabGroup){
-        await ChromeTabGroupsModel.changeData(tabGroup)
+        await LocalTabGroupsModel.changeData(tabGroup)
         this.fetchChromeTabGroups()
 
       },
       onAddTab(tabGroup){
-        ChromeTabGroupsModel.changeData(tabGroup,this.tabGroups)
+        LocalTabGroupsModel.changeData(tabGroup,this.tabGroups)
       },
 
       fetchChromeTabGroups(){
-        ChromeTabGroupsModel.getData().then(data =>{
+        LocalTabGroupsModel.getData().then(data =>{
           this.tabGroups = data
         })
       },
