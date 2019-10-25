@@ -69,7 +69,6 @@
 		},
 		methods:{
 			checkMove(tabGroup){
-				//debugger
 				this.$emit('@change', tabGroup)
 			},
 			openTab(url){
