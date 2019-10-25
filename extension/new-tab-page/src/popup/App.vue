@@ -8,13 +8,9 @@
   			메세지
   		</div>
   		<div v-else>
-  			<div v-if="selectedTabsMenu == tabsMenu[0]">
-          <tab-group-list v-bind:data="favoriteTabGroups" v-bind:type="tabsMenu[0]" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" v-on:@addTab="onAddTab" v-on:@sort="onSortTabGroup"></tab-group-list>
-          <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup"></tab-group-add-box>
+        <tab-group-list v-bind:data="tabGroups" v-bind:type="selectedTabsMenu" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" v-on:@changeTitle="onChangeTabGroupTitle" v-on:@addTab="onAddTab" v-on:@sort="onSortTabGroup"></tab-group-list>
+        <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup" v-show="isFavorite()"></tab-group-add-box>
 
-		  	</div>
-		  	<div v-else>
-          <tab-group-list v-bind:data="storageTabGroups" v-bind:type="tabsMenu[1]"></tab-group-list>
 		  	</div>
   		</div>
 
@@ -27,8 +23,7 @@
 </template>
 
 <script>
-  import FavoriteTabGroupsModel from './models/FavoriteTabGroupsModel.js'
-  import StorageTabGroupsModel from './models/StorageTabGroupsModel.js'
+  import ChromeTabGroupsModel from './models/ChromeTabGroupsModel.js'
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
@@ -41,8 +36,7 @@
       	tabsMenu : ['Favorite', 'Storage', 'Message'],
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
-        favoriteTabGroups : [],
-        storageTabGroups : [],
+        tabGroups : [],
       }
     },
     components :{
@@ -52,41 +46,41 @@
     },
     created(){
     	this.selectedTabsMenu = this.tabsMenu[0]
-      this.fetchFavoriteTabGroups();
-      this.fetchStorageTabGroups();
+      this.fetchChromeTabGroups();
     },
     methods:{
     	onClickTabsMenu(tabsMenu){
     		this.selectedTabsMenu = tabsMenu
     	},
-      onAddTabGroup(title){
-        FavoriteTabGroupsModel.addCreatedData(title)
+      isFavorite(){
+        return this.selectedTabsMenu === this.tabsMenu[0]
       },
-      onDeleteTabGroup(tabGroupId){
-        FavoriteTabGroupsModel.deleteData(tabGroupId).then(
-          this.fetchFavoriteTabGroups)
+      onAddTabGroup(title){
+        ChromeTabGroupsModel.addCreatedData(title)
+      },
+      async onDeleteTabGroup(tabGroupId){
+        await ChromeTabGroupsModel.deleteData(tabGroupId)
+        this.fetchChromeTabGroups()
       },
       onChangeTabGroup(tabGroup){
-        console.log("onChangeTabGroup",this.favoriteTabGroups)
-        FavoriteTabGroupsModel.changeData(tabGroup,this.favoriteTabGroups)
+        ChromeTabGroupsModel.changeData(tabGroup)
       },
-      onSortTabGroup(tabGroup){
-        FavoriteTabGroupsModel.changeData(tabGroup, this.favoriteTabGroups).then(
-          this.fetchFavoriteTabGroups
-        )
+      onChangeTabGroupTitle(tabGroup){
+        ChromeTabGroupsModel.changeData(tabGroup)
+        ///디비와 싱크 때 따로 타이틀만 수정하기
+      },
+      async onSortTabGroup(tabGroup){
+        await ChromeTabGroupsModel.changeData(tabGroup)
+        this.fetchChromeTabGroups()
+
       },
       onAddTab(tabGroup){
-        FavoriteTabGroupsModel.changeData(tabGroup,this.favoriteTabGroups)
+        ChromeTabGroupsModel.changeData(tabGroup,this.tabGroups)
       },
-      fetchStorageTabGroups(){
-        StorageTabGroupsModel.list().then(data =>{
-          this.storageTabGroups = data
-        })
-      },
-      fetchFavoriteTabGroups(){
-        FavoriteTabGroupsModel.getData().then(data =>{
-          console.log(data)
-          this.favoriteTabGroups = data
+
+      fetchChromeTabGroups(){
+        ChromeTabGroupsModel.getData().then(data =>{
+          this.tabGroups = data
         })
       },
     }
