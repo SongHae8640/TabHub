@@ -24,27 +24,10 @@
     <div class="row"><!-- 탭그룹 리스트 -->
       <div class="container">
         <div class="row" v-for="tabGroup in ['tabGroup', 'tabGroup']">
-          <div class="container">
-            <div class="row">
-              <a href="/posts/1">tabGroup title - (00 TABs)</a>
-            </div>
-            <div class="row">
-              <img class="col-1" src="" alt="">
-              <span class="col-1">00</span>
-              <img class="col-1 offset-col-1" src="" alt="">
-              <span class="col-1">00</span>
-            </div>
-            <div class="row">
-              tabGroup content
-            </div>
-          </div>
+          <tabGroup></tabGroup>
           <br>
         </div>
       </div>
-    </div>
-      
-
-      
     </div>
 
     
@@ -52,7 +35,12 @@
 </template>
 
 <script>
+import TabGroupComponent from "./blocks/TabGroupComponent";
+
 export default {
   name: 'Posts',
+  components: {
+    'tabGroup' : TabGroupComponent,
+  },
 }
 </script>

@@ -21,7 +21,7 @@
 
     <br><br>
     <div class="row">
-      <div class="container"><!--추천 리스트 -->
+      <div class="container text-center"><!--추천 리스트 -->
         <div class="row">
           <div class="col-4">
             <a type="button" class="btn btn-primary" href="/posts/1">추천1</a>

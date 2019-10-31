@@ -40,7 +40,7 @@
       </div>
       <div class="col-12">
         <div class="container">
-          <div class="row">
+          <div class="row" v-for="comment in ['contents', 'contents']">
             <comment></comment>
             <div v-if="true" class="col-12">
               <img class="down-arrow"><p>00개 더보기</p>
