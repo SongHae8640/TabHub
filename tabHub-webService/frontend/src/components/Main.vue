@@ -16,8 +16,6 @@
         <searchForm></searchForm>
       </div>
     </div>
-    
-    
 
     <br><br>
     <div class="row">
@@ -44,7 +42,6 @@
             <a type="button" class="btn btn-primary" href="/posts/3">추천3</a>
           </div>
         </div>
-
       </div>
 
 
