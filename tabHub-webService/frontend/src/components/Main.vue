@@ -53,6 +53,20 @@
 
 export default {
   name: 'Main',
+  props :['recommends'],
+  
+  async created(){
+    this.recommends = await this.getRecommends()
+  },
+  methods : {
+    getRecommends(){
+        let accountId = 1;
+        let recommendsList = axios.get('/posts/recommend/1')
+
+        console.log(recommendsList);
+        return recommendsList
+    },
+  },
 }
 </script>
 
