@@ -8,6 +8,10 @@ import DetailPost from '@/components/DetailPost'
 import Posts from '@/components/Posts'
 import NewPost from '@/components/NewPost'
 
+//알림개수 전역변수로 설정
+//login될 때마다 값 가져오기
+//변경은 node js socket...
+Vue.prototype.notificationCount = '3';
 Vue.use(Router)
 
 export default new Router({
@@ -48,5 +52,6 @@ export default new Router({
       path : '/posts/:id',
       component: DetailPost
     },
-  ]
+  ],
+  
 })

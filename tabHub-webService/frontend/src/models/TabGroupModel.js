@@ -1,4 +1,3 @@
-import { resolve, reject } from "q";
 
 export default{
     data : [
@@ -74,6 +73,8 @@ export default{
     ],
     getListRelevance(keyword){
         return new Promise((resolve, reject){
+            //let returnVal = await axios.get('/posts/search?keyword='+this.keyword)
+            //resolve(returnVal.data)
             resolve(this.data)
         })
     },

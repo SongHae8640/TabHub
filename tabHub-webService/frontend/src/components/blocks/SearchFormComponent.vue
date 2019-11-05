@@ -2,7 +2,7 @@
   <div>
     <img> <!-- icon -->
     <input placeholder="search!" v-model="keyword">
-    <a type="button" class="btn btn-primary" v-on:click="onSearch()">search</a>
+    <a type="button" class="btn btn-primary" v-on:click="getSearchResults()">search</a>
   </div>
 </template>
 
@@ -13,10 +13,9 @@ export default {
     return {keyword : ''}
   },
   methods:{
-    async onSearch(){
-      //axios
-      let returnVal = await axios.get('/hi')
-      console.log(returnVal)
+    getSearchResults(){
+      console.log( this.keyword)
+      this.$emit('@searchTabGroup', this.keyword)
     },
   }
 }

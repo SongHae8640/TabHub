@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row text-center">
       <div class="col-8">
-        <searchForm></searchForm>
+        <searchForm v-on:@searchTabGroup="onSearchTabGroup"></searchForm>
       </div>
       <div class="col-4">
         <user></user>
@@ -41,6 +41,11 @@ export default {
   name: 'Posts',
   components: {
     'tabGroup' : TabGroupComponent,
+  },
+  methods : {
+    onSearchTabGroup(keyword){
+      console.log(keyword)
+    },
   },
 }
 </script>
