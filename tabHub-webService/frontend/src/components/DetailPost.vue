@@ -71,7 +71,7 @@
             <div class="container">
               <div class="row" v-for="comment in comments">
                 <comment v-bind:comment="comment"></comment>
-                <div v-if="true" class="col-12">
+                <div v-show="comment.recomments.length" class="col-12">
                   <a href="#" v-show="!comment.isOpen"><img class="down-arrow">▽ 00개 더보기</a>
                   <a href="#" v-show="comment.isOpen"><img class="down-arrow">△ 00개 숨기기</a>
                   <div class="container" v-show="comment.isOpen">
