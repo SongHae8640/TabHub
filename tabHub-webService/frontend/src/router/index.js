@@ -39,7 +39,7 @@ export default new Router({
     },
     {
       name: 'Posts',
-      path : '/posts',
+      path : '/posts/search',
       component: Posts
     },
     {

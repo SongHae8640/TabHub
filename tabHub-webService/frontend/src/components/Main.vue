@@ -32,58 +32,23 @@
 </template>
 
 <script>
+import TabGroupModel from "../models/TabGroupModel"
 
 export default {
   name: 'Main',
-  props :['recommends'],
-  
+  data(){
+    return{
+      recommends : []
+    }
+  },
   async created(){
     this.recommends = await this.getRecommends()
   },
   methods : {
-    getRecommends(){
+    async getRecommends(){
         let accountId = 1;
-        let recommendsList = axios.get('/posts/recommend/1')
-        //id, title, writer, views
-        recommendsList = [
-          {
-            id: 1,
-            title: "test1",
-            writer: "tabhub",
-            views: 30
-          },
-          {
-            id: 2,
-            title: "test2",
-            writer: "tabhub",
-            views: 20
-          },
-          {
-            id: 3,
-            title: "test3",
-            writer: "tabhub",
-            views: 300
-          },
-          {
-            id: 4,
-            title: "test4",
-            writer: "tabhub",
-            views: 303
-          },
-          {
-            id: 5,
-            title: "test5",
-            writer: "tabhub",
-            views: 33243
-          },
-          {
-            id: 6,
-            title: "test6",
-            writer: "tabhub",
-            views: 2322
-          },
-        ]
-
+        let recommendsList = await TabGroupModel.getRecommends(accountId)
+        
         console.log(recommendsList);
         return recommendsList
     },

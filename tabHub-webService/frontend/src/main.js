@@ -10,6 +10,9 @@ Vue.component('searchForm', SearchFormComponent);
 Vue.component('user', UserComponent);
 Vue.config.productionTip = false
 
+Vue.prototype.$EventBus = new Vue();
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

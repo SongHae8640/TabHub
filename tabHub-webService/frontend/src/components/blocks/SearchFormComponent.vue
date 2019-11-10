@@ -12,10 +12,22 @@ export default {
   data (){
     return {keyword : ''}
   },
+  created(){
+    this.keyword = this.$route.query.keyword
+  },
   methods:{
     getSearchResults(){
-      console.log( this.keyword)
-      this.$emit('@searchTabGroup', this.keyword)
+      if(this.$route.path==='/posts/search'){
+        this.$router.push('/posts/search?keyword='+this.keyword+'&filter=relevance').catch(err =>{
+          //console.log(this.$route)
+        })
+        this.$emit('@search', this.keyword)
+      }else{
+        this.$router.push('/posts/search?keyword='+this.keyword+'&filter=relevance');
+      }
+      
+      //this.$router.push('/posts/search?keyword='+this.keyword+'&filter=relevance');
+      //window.location = '/posts/search?keyword='+this.keyword+'&filter=relevance'
     },
   }
 }

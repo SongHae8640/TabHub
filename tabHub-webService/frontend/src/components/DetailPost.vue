@@ -92,11 +92,25 @@
 
 <script>
 import CommentComponent from "./blocks/CommentComponent";
+import TabGroupModel from "../models/TabGroupModel";
 
 export default {
   name: 'DetailPost',
   components : {
     'comment' : CommentComponent,
+  },
+  data(){
+    tabGroup : {}
+  },
+  created(){
+    console.log(this.$route.params.id)
+    this.onSearchTab(this.$route.params.id)
+  },
+  methods : {
+    async onSearchTab(postId){
+      const tabGroup = await TabGroupModel.getPost(postId);
+      console.log(tabGroup)
+    },
   },
 }
 </script>
