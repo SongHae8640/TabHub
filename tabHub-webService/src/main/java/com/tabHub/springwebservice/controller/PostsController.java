@@ -18,6 +18,7 @@ public class PostsController {
 	public String getTabGroupList(@RequestParam("keyword") String keyword, @RequestParam("filter") String filter) {
 		logger.debug(keyword);
 		logger.debug(filter);
+		System.out.println("getTabGroupList : "+keyword);
 		return "getTabGroupList : "+keyword;
 	}
 }

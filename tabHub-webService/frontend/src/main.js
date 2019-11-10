@@ -6,11 +6,13 @@ import router from './router'
 import SearchFormComponent from "./components/blocks/SearchFormComponent"
 import UserComponent from './components/blocks/UserComponent.vue';
 
+
+//axios의 url 앞부분을 http://localhost:8080(스프링부트포트)로 고정
+axios.defaults.baseURL = 'http://localhost:8080'
+
 Vue.component('searchForm', SearchFormComponent);
 Vue.component('user', UserComponent);
 Vue.config.productionTip = false
-
-Vue.prototype.$EventBus = new Vue();
 
 
 /* eslint-disable no-new */

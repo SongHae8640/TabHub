@@ -100,7 +100,9 @@ export default {
     'comment' : CommentComponent,
   },
   data(){
-    tabGroup : {}
+    return{
+      tabGroup : {}
+    }
   },
   created(){
     console.log(this.$route.params.id)
@@ -108,8 +110,8 @@ export default {
   },
   methods : {
     async onSearchTab(postId){
-      const tabGroup = await TabGroupModel.getPost(postId);
-      console.log(tabGroup)
+      this.tabGroup = await TabGroupModel.getPost(postId);
+      console.log(this.tabGroup)
     },
   },
 }

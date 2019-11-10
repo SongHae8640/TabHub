@@ -145,10 +145,11 @@ export default{
         })
     },
     getPost(postId){
+        var _this = this
         return new Promise(function(resolve, reject){
             const tabGroupTemp = axios.get('/axios/posts/'+postId)
             console.log(tabGroupTemp)
-            resolve(this.data[0])
+            resolve(_this.data[0])
         })
     }
 
