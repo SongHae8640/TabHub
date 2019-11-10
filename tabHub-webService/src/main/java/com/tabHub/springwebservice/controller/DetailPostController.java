@@ -20,4 +20,12 @@ public class DetailPostController {
 		logger.debug(""+postId);
 		return "getPost : "+postId;
 	}
+	
+	
+	@GetMapping("/posts/{postId}/comments")
+	public String getCommentListByPostId(@PathVariable("postId") int postId) {
+		logger.debug("postId = "+postId);
+		return "getCommentListByPostId : "+postId;
+	}
+	
 }

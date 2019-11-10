@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row">
     <div class="col-2">
-        <img src="../../img/profile.png" class="col-12">
+        <img :src="comment.profileUrl" class="col-12">
     </div>
     <div class="col-10">
-        <span>댓글쓴이 날짜</span>
+        <span>{{comment.writerId}} {{comment.writeDate}}</span>
         <div class="btn-group dropright float-right">
             <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </button>
@@ -17,8 +17,8 @@
           </div>
         <p>댓글내용</p>
         <div>
-            <button>좋아요</button> <span>00</span>
-            <button>싫어요</button> <span>00</span>
+            <button>좋아요</button> <span>{{comment.likeCount}}</span>
+            <button>싫어요</button> <span>{{comment.hateCount}}</span>
             <button>답글</button>
         </div>
         <div class="row">
@@ -40,5 +40,6 @@
 <script>
 export default {
     name: 'Comment',
+    props : ['comment'],
 }
 </script>

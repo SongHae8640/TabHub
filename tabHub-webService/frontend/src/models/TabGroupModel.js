@@ -130,8 +130,8 @@ export default{
             resolve(_this.data)
             
             //relevance, views, likeCount
-            const tabGroups = axios.get('/axios/posts/search?keyword='+keyword+'&filter='+filter)
-            console.log(tabGroups)
+            //const tabGroups = axios.get('/axios/posts/search?keyword='+keyword+'&filter='+filter)
+            //console.log(tabGroups)
         })
     },
     getRecommends(accountId){
@@ -147,8 +147,8 @@ export default{
     getPost(postId){
         var _this = this
         return new Promise(function(resolve, reject){
-            const tabGroupTemp = axios.get('/axios/posts/'+postId)
-            console.log(tabGroupTemp)
+            //const tabGroupTemp = axios.get('/axios/posts/'+postId)
+            //console.log(tabGroupTemp)
             resolve(_this.data[0])
         })
     }
