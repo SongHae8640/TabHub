@@ -11,7 +11,7 @@
     
     <div class="row">
       <div class="col-12">
-        <span id="tabGroup-title">{{tabGroup.title}}</span><b> - ({{tabsCount}} TABs)</b>
+        <span id="tabGroup-title">{{tabGroup.title}}</span><b> - ({{tabGroup.tabs.length}} TABs)</b>
         <div class="col-12">
           <span>조회수 {{tabGroup.viewCount}}</span>
           <span>다운로드수 {{tabGroup.downloadCount}}</span>
@@ -56,12 +56,12 @@
             <img src="../img/profile.png"  alt="">
           </div>
           <div class="col-11">
-            <input type="text" class="col-12" placeholder="댓글입력" />
+            <input type="text" class="col-12" placeholder="댓글입력" v-model="commentContent"/>
           </div>
           <div class="col-12">
             <div class="float-right">
-                <button>취소</button>
-                <button>답글</button>
+                <button v-on:click="onClickResetCommentBtn">취소</button>
+                <button v-on:click="onClickCommentBtn">답글</button>
             </div>
           </div>
         </div>
@@ -71,9 +71,9 @@
             <div class="container">
               <div class="row" v-for="comment in comments">
                 <comment v-bind:comment="comment"></comment>
-                <div v-show="comment.recomments.length" class="col-12">
-                  <a href="#" v-show="!comment.isOpen"><img class="down-arrow">▽ 00개 더보기</a>
-                  <a href="#" v-show="comment.isOpen"><img class="down-arrow">△ 00개 숨기기</a>
+                <div v-show="comment.reComments.length" class="col-12">
+                  <a href="#" v-show="!comment.isOpen" v-on:click="onClickIsOpenBtn(comment)"><img class="down-arrow">▽ {{comment.reComments.length}}개 더보기</a>
+                  <a href="#" v-show="comment.isOpen" v-on:click="onClickIsOpenBtn(comment)"><img class="down-arrow">△ {{comment.reComments.length}}개 숨기기</a>
                   <div class="container" v-show="comment.isOpen">
                     <div class="row" v-for="reComment in comment.reComments">
                       <comment v-bind:comment="reComment"></comment>
@@ -102,27 +102,45 @@ export default {
   },
   data(){
     return{
-      tabGroup : {},
-      comments : [],
-      tabsCount : -1,
-      commentsCount : -1,
+      tabGroup : {
+        tabs:[],
+      },
+      comments : [
+        {
+          reComments:[],
+        }
+      ],
+      commentContent : ''
     }
   },
-  created(){
+  async created(){
     console.log(this.$route.params.id)
-    this.onGetTabGroup(this.$route.params.id)
-    this.onGetComments(this.$route.params.id)
+    await this.onGetTabGroup(this.$route.params.id)
+    await this.onGetComments(this.$route.params.id)
   },
   methods : {
     async onGetTabGroup(postId){
       this.tabGroup = await TabGroupModel.getPost(postId);
-      this.tabsCount = this.tabGroup.tabs.length
       console.log(this.tabGroup)
     },
     async onGetComments(postId){
       this.comments = await CommentModel.getCommentListByPostId(postId)
-      this.commentsCount = this.comments.length
       console.log(this.comments)
+    },
+    onClickIsOpenBtn(comment){
+      comment.isOpen = !comment.isOpen
+    },
+    onClickResetCommentBtn(){
+      this.commentContent = ''
+    },
+    onClickCommentBtn(){
+      //글이 없을때
+      if(!this.commentContent.trim().length){
+        return 
+      }
+
+      //CommentModel.
+
     },
   },
 }
