@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'User',
+  props :['isLogin'],
   created(){
     //this.notificationCount = 4;
     console.log(this.notificationCount);

@@ -12,7 +12,7 @@ import NewPost from '@/components/NewPost'
 //login될 때마다 값 가져오기
 //변경은 node js socket...
 Vue.prototype.notificationCount = '3';
-Vue.prototype.isLogin = false;
+//Vue.prototype.isLogin = false;
 Vue.use(Router)
 
 export default new Router({

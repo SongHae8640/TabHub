@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-   <router-view></router-view>
+    <user v-bind:isLogin="isLogin"></user> 
+    <router-view v-on:@login="onLogin"></router-view>
   </div>
 </template>
 
@@ -10,6 +11,17 @@ import router from "./router";
 
 export default {
   name: 'App',
+  data(){
+    return{
+      isLogin : false,
+    }
+    
+  },
+  methods :{
+    onLogin(){
+      this.isLogin = true
+    }
+  }
 }
 </script>
 
