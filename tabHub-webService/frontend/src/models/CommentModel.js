@@ -109,7 +109,7 @@ export default{
     addComment(content, tabGroupId){
         axios({
             method : 'post',
-            url : '/accounts/'+tabGroupId+'/comments',
+            url : '/axios/posts/'+tabGroupId+'/comments',
             data :{
                 content : content
             }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,12 @@ public class DetailPostController {
 	public String getCommentListByPostId(@PathVariable("postId") int postId) {
 		logger.debug("postId = "+postId);
 		return "getCommentListByPostId : "+postId;
+	}
+	
+	@PostMapping("/posts/{postId}/comments")
+	public String addComment(@PathVariable("postId") int postId, String content) {
+	
+		return "";
 	}
 	
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="false">
+  <div v-if="!isLogin">
     <a href="/login">login</a>
     <a href="/join">join</a>
   </div>
@@ -14,7 +14,9 @@
 export default {
   name: 'User',
   created(){
-    this.notificationCount = 4;
+    //this.notificationCount = 4;
+    console.log(this.notificationCount);
+    console.log(this.isLogin);
   }
 }
 </script>
