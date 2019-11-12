@@ -10,13 +10,15 @@ export default{
     login(id, pw){
 
         return new Promise(function(resolve, reject){
+            const params = new URLSearchParams();
+            params.append('id', id);
+            params.append('pw', pw);
+            console.log(params);
+
             const response = axios({
                 method : 'post',
                 url : '/axios/account/login',
-                data :{
-                    id : id,
-                    pw : pw
-                }
+                data : params
             })
 
             resolve(response)
@@ -24,16 +26,17 @@ export default{
     },
     join(id, pw, rePw, email){
         return new Promise(function(resolve, reject){
-            console.log(id, pw,rePw, email)
+            const params = new URLSearchParams();
+            params.append('id', id);
+            params.append('pw', pw);
+            params.append('rePw', rePw);
+            params.append('email', email);
+            console.log(params);
+
             const response = axios({
                 method : 'post',
                 url : '/axios/account/join',
-                data :{
-                    id : id,
-                    pw : pw,
-                    rePw : rePw,
-                    email : email
-                }
+                data : params
             })
 
             resolve(response)

@@ -41,6 +41,7 @@ export default {
 
 
       const response = await AccountModel.login(this.id, this.pw)
+      console.log(response)
       //로그인 성공
       if(true){
         this.$router.push('/')
