@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
-	@PostMapping("/account")
+	@PostMapping("/account/login")
 	public String login(String id, String pw) {
 		logger.debug("id = "+id+", pw = "+pw);
 		return "";

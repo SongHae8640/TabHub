@@ -12,10 +12,27 @@ export default{
         return new Promise(function(resolve, reject){
             const response = axios({
                 method : 'post',
-                url : '/axios/account',
+                url : '/axios/account/login',
                 data :{
                     id : id,
                     pw : pw
+                }
+            })
+
+            resolve(response)
+        })
+    },
+    join(id, pw, rePw, email){
+        return new Promise(function(resolve, reject){
+            console.log(id, pw,rePw, email)
+            const response = axios({
+                method : 'post',
+                url : '/axios/account/join',
+                data :{
+                    id : id,
+                    pw : pw,
+                    rePw : rePw,
+                    email : email
                 }
             })
 
