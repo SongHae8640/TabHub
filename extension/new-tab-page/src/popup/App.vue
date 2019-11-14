@@ -1,22 +1,58 @@
 <template>
   <div>
-  	<div class="container" id="tabs">
-    	<tabs-menu v-bind:tabsMenu="tabsMenu" v-bind:selectedTabsMenu="selectedTabsMenu" v-on:@change="onClickTabsMenu"></tabs-menu>
-  	</div>
-  	<div class="content container">
-  		<div v-if="selectedTabsMenu === tabsMenu[2]">
-  			메세지
-  		</div>
-  		<div v-else>
-        <tab-group-list v-bind:data="tabGroups" v-bind:type="selectedTabsMenu" v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" v-on:@changeTitle="onChangeTabGroupTitle" v-on:@addTab="onAddTab" v-on:@sort="onSortTabGroup"></tab-group-list>
-        <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup" v-show="isFavorite()"></tab-group-add-box>
+    <div class="container">
+      <div class="row">
+          <h1>TabHub</h1>
+          <img src="" alt="" class="icon">
+      </div>
+    </div>
 
-		  	</div>
-  		</div>
+
+    <div v-if="isTabGroupPage" id="tabGroup">
+      <div class="container">
+        <div v-if="isLogin" class="row">
+            (아이디) 님 
+        </div>
+        <div v-else>
+            <div class="row">
+                <button v-on:click="onClickLoginBtn">login</button>
+                <button v-on:click="onClickJoinBtn">join</button>
+            </div>
+            <div class="row">
+                동기화를 위해서는 로그인이 필요합니다.
+            </div>
+        </div>
+      </div>
+      <div class="container" id="tabs">
+        <tabs-menu v-bind:tabsMenu="tabsMenu" v-bind:selectedTabsMenu="selectedTabsMenu" v-on:@change="onClickTabsMenu"></tabs-menu>
+      </div>
+      <div class="content container">
+        <div v-if="selectedTabsMenu === tabsMenu[2]">
+          메세지
+        </div>
+        <div v-else>
+          <tab-group-list v-bind:data="tabGroups" v-bind:type="selectedTabsMenu" 
+          v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" 
+          v-on:@changeTitle="onChangeTabGroupTitle" v-on:@addTab="onAddTab" 
+          v-on:@sort="onSortTabGroup"></tab-group-list>
+          <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup" v-show="isFavorite()"></tab-group-add-box>
+        </div>
+      </div>
+    </div>
+
+
+    <div v-else id="auth">
+      <div v-if="isLoginPage">
+        로그인
+      </div>
+      <div v-else>
+        조인
+      </div>
+
+    </div>
+    
 
   		
-  	</div>
-  	
   </div>
   
   
@@ -37,6 +73,10 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
+        isLogin : false,
+        isTabGroupPage : true,
+        isLoginPage : true,
+
       }
     },
     components :{
@@ -82,6 +122,16 @@
         LocalTabGroupsModel.getData().then(data =>{
           this.tabGroups = data
         })
+      },
+
+      onClickLoginBtn(){
+        this.isTabGroupPage = false
+        this.isLoginPage = true
+      },
+
+      onClickJoinBtn(){
+        this.isTabGroupPage = false
+        this.isLoginPage = false
       },
     }
   }

@@ -38,3 +38,8 @@ gradle/*
 *.jar
 gradlew
 *.bat
+
+
+### key ###
+*.ppk
+*.pem
