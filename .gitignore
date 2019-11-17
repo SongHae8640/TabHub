@@ -43,3 +43,9 @@ gradlew
 ### key ###
 *.ppk
 *.pem
+applicaion.properties
+
+
+### security tutorial ###
+**/com/security/tutorial/**
+**/static/securityTutorial/**
