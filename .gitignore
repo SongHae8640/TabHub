@@ -43,7 +43,7 @@ gradlew
 ### key ###
 *.ppk
 *.pem
-applicaion.properties
+application.properties
 
 
 ### security tutorial ###
