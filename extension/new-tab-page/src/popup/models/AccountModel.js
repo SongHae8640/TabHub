@@ -17,7 +17,15 @@ export default{
 
             //XMLHttpRequest을 이용한 통신
 
-            resolve(response)
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                console.log(xmlHttp.responseText)
+            }; // Implemented elsewhere.
+            xhr.open("GET", chrome.extension.getURL('http://localhost:9091/test'), true);
+            xhr.send();
+
+            
         })
     },
     join(accountData){

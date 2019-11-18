@@ -197,7 +197,7 @@
 
       onClickLoginBtn(){
         console.log(this.accountData)
-        //AccountModel.login(this.accountData);
+        AccountModel.login(this.accountData);
 
       },
 

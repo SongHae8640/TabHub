@@ -3,6 +3,7 @@ package com.tabHub.springwebservice.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SecurityController {
@@ -22,10 +23,16 @@ public class SecurityController {
         return "public";
     }
     
-//    @GetMapping(value = "/login")
-//    public String loginPage() {
-//    	return "login";
-//    }
+    @GetMapping(value = "/test")
+    @ResponseBody
+    public String XMLHttpRequestTest() {
+    	return "ok";
+    }
+    
+    @GetMapping(value = "/login")
+    public String loginPage() {
+    	return "login";
+    }
 //    
 //    @GetMapping(value = "/admin")
 //    public String adminPage() {

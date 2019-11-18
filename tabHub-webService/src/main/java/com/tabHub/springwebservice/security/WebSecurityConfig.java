@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,11 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    		.usernameParameter("id")	//지정한  id의 name
 //    		.passwordParameter("pw")	//지정한  id의 pw
 //    		.failureForwardUrl("/login?error=true")
-//    	.and()
-//    		.logout()
-//    		.deleteCookies("JSESSIONID")
-//    		.clearAuthentication(true)
-//    		.invalidateHttpSession(true)
+    	.and()
+    		.logout()
+    		.deleteCookies("JSESSIONID")
+    		.clearAuthentication(true)
+    		.invalidateHttpSession(true)
 //    	.and()
 //    		.exceptionHandling()
 //    			.accessDeniedHandler(customAccessDeniedHandler);
@@ -74,4 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
     	return new UserDetailsServiceImpl();
     }
+    
+    
+    
 }

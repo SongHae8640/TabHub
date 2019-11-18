@@ -13,7 +13,7 @@ import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@Configuration
+@Configuration
 public class CustomAccessDeniedHandler extends AccessDeniedHandlerImpl{
 
 	@Override
