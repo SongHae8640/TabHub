@@ -15,8 +15,8 @@
         </div>
         <div v-else>
             <div class="row">
-                <button v-on:click="onClickLoginBtn">login</button>
-                <button v-on:click="onClickJoinBtn">join</button>
+                <button v-on:click="onClickLoginPageBtn">login</button>
+                <button v-on:click="onClickJoinPageBtn">join</button>
             </div>
             <div class="row">
                 동기화를 위해서는 로그인이 필요합니다.
@@ -43,10 +43,58 @@
 
     <div v-else id="auth">
       <div v-if="isLoginPage">
-        로그인
+        <h1>Login</h1>
+        <form method="post" action="http://localhost:9091/login">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input class="form-control" id="id" placeholder="Enter ID" v-model="accountData.id">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" v-model="accountData.pw">
+          </div>
+          <a class="float-left" v-on:click="onClickJoinPageBtn">join</a>
+          <button v-on:click="onClickMainPageBtn" class="btn btn-primary float-right">cancel</button>
+          <button type="submit" class="btn btn-primary float-right">Submit</button>
+        </form>
       </div>
       <div v-else>
-        조인
+        <h1>Join</h1>
+        <form>
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input class="form-control" id="id" placeholder="Enter ID" v-model="accountData.id">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" v-model="accountData.pw">
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Password</label>
+            <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" v-model="accountData.rePw">
+            <span><!-- 비밀번호 일치 여부 확인 --></span>
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <div class="container">
+              <div class="row">
+                <input type="email" class="col-9 form-control" id="email" placeholder="Enter e-mail" v-model="accountData.email">
+                <button type="button" class="col-3 btn btn-secondary">Confirm</button>  
+              </div>
+              <div class="row" v-show="true">
+                <input type="text" class="col-3 form-control" id="confirm-code" placeholder="code" v-model="accountData.confirmCode">
+                <button type="button" class="col-3 btn btn-secondary">Check</button>
+                <span v-show="false">fail code</span>
+              </div>
+            </div>
+                    
+            
+          </div>
+          <a class="float-left" v-on:click="onClickLoginPageBtn">login</a>
+          <button v-on:click="onClickMainPageBtn" class="btn btn-primary float-right">cancel</button>
+          <button type="button" v-on:click="onClickJoinBtn" class="btn btn-primary float-right">Submit</button>
+
+        </form>
       </div>
 
     </div>
@@ -60,6 +108,7 @@
 
 <script>
   import LocalTabGroupsModel from './models/LocalTabGroupsModel.js'
+  import AccountModel from './models/AccountModel.js'
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
@@ -76,6 +125,14 @@
         isLogin : false,
         isTabGroupPage : true,
         isLoginPage : true,
+
+        accountData :{
+          id :'',
+          pw :'',
+          rePw :'',
+          email :'',
+          confirmCode : '',
+        }
 
       }
     },
@@ -124,15 +181,31 @@
         })
       },
 
-      onClickLoginBtn(){
+      onClickLoginPageBtn(){
         this.isTabGroupPage = false
         this.isLoginPage = true
       },
 
-      onClickJoinBtn(){
+      onClickJoinPageBtn(){
         this.isTabGroupPage = false
         this.isLoginPage = false
+      },
+
+      onClickMainPageBtn(){
+        this.isTabGroupPage = true
+      },
+
+      onClickLoginBtn(){
+        console.log(this.accountData)
+        //AccountModel.login(this.accountData);
+
+      },
+
+      onClickJoinBtn(){
+        console.log(this.accountData)
       },
     }
   }
 </script>
+
+
