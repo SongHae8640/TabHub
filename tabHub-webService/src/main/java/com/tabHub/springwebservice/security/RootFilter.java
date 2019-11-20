@@ -18,7 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-@Order(-99)
+//@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(-99)	// security 필터보다 뒤에 위치 하게 하기 위해 
 @Configuration
 public class RootFilter implements Filter{
 	//security 전에 씌울 필터가 있으면 order를 -100 미만으로 해서 설정하고 사용할것(security의 order가 -100)
@@ -29,7 +30,6 @@ public class RootFilter implements Filter{
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		Filter.super.init(filterConfig);
 	}
 
 	@Override
@@ -38,7 +38,8 @@ public class RootFilter implements Filter{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		log.debug("Auth =>>> ");
-		log.debug(""+authentication);
+		log.debug("authentication :: "+authentication);
+		log.debug("getContext :: "+SecurityContextHolder.getContext());
 		
 		chain.doFilter(request, response);
 		

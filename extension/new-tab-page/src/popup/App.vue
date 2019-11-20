@@ -44,7 +44,7 @@
     <div v-else id="auth">
       <div v-if="isLoginPage">
         <h1>Login</h1>
-        <form method="post" action="http://localhost:9091/login">
+        <form>
           <div class="form-group">
             <label for="id">ID</label>
             <input class="form-control" id="id" placeholder="Enter ID" v-model="accountData.id">
@@ -55,7 +55,7 @@
           </div>
           <a class="float-left" v-on:click="onClickJoinPageBtn">join</a>
           <button v-on:click="onClickMainPageBtn" class="btn btn-primary float-right">cancel</button>
-          <button type="submit" class="btn btn-primary float-right">Submit</button>
+          <button v-on:click="onClickLoginBtn" type="button" class="btn btn-primary float-right">Submit</button>
         </form>
       </div>
       <div v-else>
@@ -122,13 +122,13 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : false,
-        isTabGroupPage : true,
+        isLogin : true,
+        isTabGroupPage : false,
         isLoginPage : true,
 
         accountData :{
-          id :'',
-          pw :'',
+          id :'user',
+          pw :'1234',
           rePw :'',
           email :'',
           confirmCode : '',

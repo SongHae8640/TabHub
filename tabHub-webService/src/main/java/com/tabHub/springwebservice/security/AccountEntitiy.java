@@ -23,5 +23,13 @@ public class AccountEntitiy {
 	private String profile_url;
 	
 	private String role;
+
+	@Override
+	public String toString() {
+		return "AccountEntitiy [id=" + id + ", email=" + email + ", password=" + password + ", profile_url="
+				+ profile_url + ", role=" + role + "]";
+	}
+	
+	
 	
 }

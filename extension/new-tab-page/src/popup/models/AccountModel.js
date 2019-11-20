@@ -10,21 +10,32 @@ export default{
     login(accountData){
 
         return new Promise(function(resolve, reject){
-            const params = new URLSearchParams();
-            params.append('id', accountData.id);
-            params.append('pw', accountData.pw);
-            console.log(params);
+            console.log(accountData);
 
             //XMLHttpRequest을 이용한 통신
 
+            $.ajax({
+                method : 'POST',
+                url : 'http://localhost:9091/login',
+                data :{
+                    id : accountData.id,
+                    password : accountData.pw
+                },
+                success : function(response){
+                    console.log(response)
+                }
 
+            })
+
+
+            /*
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 console.log(xmlHttp.responseText)
             }; // Implemented elsewhere.
             xhr.open("GET", chrome.extension.getURL('http://localhost:9091/test'), true);
             xhr.send();
-
+*/
             
         })
     },
