@@ -27,25 +27,6 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-/bin/
 
 ### VS Code ###
 .vscode/
-
-*.class
-*.metadata
-gradle/*
-*.gradle
-*.jar
-gradlew
-*.bat
-
-
-### key ###
-*.ppk
-*.pem
-*.properties
-
-
-### security tutorial ###
-**/spring-webservice-security-tutorial/**
