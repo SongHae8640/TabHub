@@ -11,7 +11,9 @@
     <div v-if="isTabGroupPage" id="tabGroup">
       <div class="container">
         <div v-if="isLogin" class="row">
-            (아이디) 님 
+            <div class="col-4">{{accountData.id}} 님 </div>
+            <div class="col-8" v-on:click="onClickLogoutBtn"><button>logout</button></div>
+
         </div>
         <div v-else>
             <div class="row">
@@ -122,8 +124,8 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : true,
-        isTabGroupPage : false,
+        isLogin : false,
+        isTabGroupPage : true,
         isLoginPage : true,
 
         accountData :{
@@ -144,6 +146,10 @@
     created(){
     	this.selectedTabsMenu = this.tabsMenu[0]
       this.fetchChromeTabGroups();
+      
+    },
+    updated(){
+      //this.onClickLoginBtn()
     },
     methods:{
     	onClickTabsMenu(tabsMenu){
@@ -195,14 +201,40 @@
         this.isTabGroupPage = true
       },
 
-      onClickLoginBtn(){
-        console.log(this.accountData)
-        AccountModel.login(this.accountData);
+      async onClickLoginBtn(){
+
+        //로그인 성공
+        if(await AccountModel.login(this.accountData)){
+          this.isLogin = true
+          this.isTabGroupPage = true
+          this.isLoginPage = false
+
+          //sync 통신 
+
+          //message 통신
+
+
+        }
+        //로그인 실패
+        else{
+          alert('login에 실패 했습니다.')
+
+        }
 
       },
 
       onClickJoinBtn(){
         console.log(this.accountData)
+      },
+
+      async onClickLogoutBtn(){
+        if(await AccountModel.logout()){
+          this.isLogin = false
+          this.isTabGroupPage = false
+          this.isLoginPage = true
+        }else{
+
+        }
       },
     }
   }

@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
-@RequestMapping("/ajax")
 public class ExtensionController {
+
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -31,7 +34,7 @@ public class ExtensionController {
 	@Autowired
 	SecurityContextRepository repository;
 
-	@PostMapping(value = "/login")
+	@PostMapping(value = "/ajax/account/login")
 	@ResponseBody
 	public ModelMap login(HttpServletRequest request, HttpServletResponse response,
 		@RequestParam(value = "id") String username,
@@ -55,6 +58,22 @@ public class ExtensionController {
 			map.put("message", e.getMessage());
 		}
 
+		return map;
+	}
+	
+	@PostMapping(value="/logout")
+	@ResponseBody
+	public ModelMap logout(HttpServletRequest reqeust, HttpServletResponse response) {
+		ModelMap map = new ModelMap();
+		log.debug("logout에 들어오니");
+		
+		
+		try {
+			map.put("sucess", true);
+		} catch (Exception e) {
+			map.put("sucess", false);
+		}
+		
 		return map;
 	}
 	

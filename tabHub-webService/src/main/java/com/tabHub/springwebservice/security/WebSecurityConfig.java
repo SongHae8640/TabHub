@@ -70,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .loginPage("/login")	//로그인 페이지 추가
     		.usernameParameter("id")	//지정한  id의 name
     		.passwordParameter("pw")	//지정한  id의 pw
-    	
     		.failureForwardUrl("/login?error=true")
     	.and()
     		.logout()

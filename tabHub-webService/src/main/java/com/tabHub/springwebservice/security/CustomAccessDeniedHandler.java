@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,3 +25,4 @@ public class CustomAccessDeniedHandler extends AccessDeniedHandlerImpl{
 			super.handle(request, response, accessDeniedException);
 		}
 }
+

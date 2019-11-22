@@ -18,5 +18,6 @@ public class LoginController {
 		logger.debug("id = "+id+", pw = "+pw);
 		return "";
 	}
+	
 
 }

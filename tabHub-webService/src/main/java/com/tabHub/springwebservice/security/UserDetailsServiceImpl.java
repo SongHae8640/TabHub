@@ -32,6 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		log.debug("start, username="+username );
 		
+		
+		
 		List<AccountEntitiy> findUser = em
 				.createQuery("SELECT v from AccountEntitiy v where v.id = :id", AccountEntitiy.class)
 				.setParameter("id", username)

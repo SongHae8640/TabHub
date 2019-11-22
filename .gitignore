@@ -45,7 +45,7 @@ gradlew
 *.ppk
 *.pem
 *.properties
-
+tabHub-webService/src/main/resources/application.properties
 
 ### security tutorial ###
 **/spring-webservice-security-tutorial/**

@@ -42,17 +42,7 @@ public class SecurityController {
     public String publicPage() {
         return "public";
     }
-    
-    @GetMapping(value = "/test")
-    @ResponseBody
-    public String XMLHttpRequestTest() {
-    	return "ok";
-    }
-    @PostMapping(value = "/test")
-    @ResponseBody
-    public String XMLHttpRequestTest2() {
-    	return "ok";
-    }
+
     
     
     @GetMapping(value = "/login")
@@ -61,11 +51,6 @@ public class SecurityController {
     }
     
     
-    @PostMapping(value = "/login")
-    @ResponseBody
-    public String loginPage2(Principal principal) {
-    	return 	principal.getName();
-    }
     
     
     
