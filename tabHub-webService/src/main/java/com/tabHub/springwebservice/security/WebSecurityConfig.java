@@ -1,8 +1,11 @@
 package com.tabHub.springwebservice.security;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,7 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
+	
+	@Autowired
+	private DataSource dataSource;
 
 
     @Override
@@ -77,6 +84,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.clearAuthentication(true)
     		.invalidateHttpSession(true)
     	.and()
+    		.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository())
+    	.and()
     		.exceptionHandling()
     			.accessDeniedHandler(customAccessDeniedHandler)
     	.and()
@@ -84,6 +93,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.and()
     		.csrf().disable()
     	;
+    }
+    
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+      JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
+      jdbcTokenRepositoryImpl.setDataSource(dataSource);
+      
+      log.debug(jdbcTokenRepositoryImpl.getDataSource().toString());
+      return jdbcTokenRepositoryImpl;
     }
     
     @Bean

@@ -1,3 +1,16 @@
+import backgroundWork from './popup/models/AccountModel.js'
+
+//backgroundWork.login({id : 'user' , })
+const test = 'asdasda'
+alert("working")
+
+
+
+
+
+/* ================================================== */
+/* ================================================== */
+
 /* -------------------------------------------------- */
 
 /*      Start of Webpack Hot Extension Middleware     */

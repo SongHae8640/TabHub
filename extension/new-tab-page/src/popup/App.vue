@@ -55,6 +55,10 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" v-model="accountData.pw">
           </div>
+          <div class="form-group">
+            <label for="remember-me">auto Login</label>
+            <input type="checkbox" name="remember-me">
+          </div>
           <a class="float-left" v-on:click="onClickJoinPageBtn">join</a>
           <button v-on:click="onClickMainPageBtn" class="btn btn-primary float-right">cancel</button>
           <button v-on:click="onClickLoginBtn" type="button" class="btn btn-primary float-right">Submit</button>
