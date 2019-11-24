@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,15 +32,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //springSecurityFilterChain 자동 포함
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
-	
-	@Autowired
-	private DataSource dataSource;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -84,7 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.clearAuthentication(true)
     		.invalidateHttpSession(true)
     	.and()
-    		.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository())
+	    	.rememberMe()
+	    	.rememberMeParameter("remember-me")
+			.key("myUniqueKey")
+			.rememberMeCookieName("websparrow-login-remember-me")
+			.tokenValiditySeconds(10000000)
     	.and()
     		.exceptionHandling()
     			.accessDeniedHandler(customAccessDeniedHandler)
@@ -93,15 +94,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.and()
     		.csrf().disable()
     	;
-    }
-    
-    @Bean
-    public PersistentTokenRepository tokenRepository() {
-      JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl=new JdbcTokenRepositoryImpl();
-      jdbcTokenRepositoryImpl.setDataSource(dataSource);
-      
-      log.debug(jdbcTokenRepositoryImpl.getDataSource().toString());
-      return jdbcTokenRepositoryImpl;
     }
     
     @Bean
@@ -127,9 +119,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return httpSessionSecurityContextRepository;
     }
     
-    
-    
-
     
     
 }

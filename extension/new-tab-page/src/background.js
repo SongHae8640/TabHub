@@ -1,8 +1,8 @@
 import backgroundWork from './popup/models/AccountModel.js'
 
 //backgroundWork.login({id : 'user' , })
-const test = 'asdasda'
-alert("working")
+//const test = 'asdasda'
+//alert("working")
 
 
 

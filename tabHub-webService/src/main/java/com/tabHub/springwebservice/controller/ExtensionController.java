@@ -1,5 +1,7 @@
 package com.tabHub.springwebservice.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,17 +18,22 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.tabHub.springwebservice.service.MybatisTestService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class ExtensionController {
-
+	
+	@Autowired
+	private MybatisTestService mybatisTestService;
 	
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -75,6 +82,12 @@ public class ExtensionController {
 		}
 		
 		return map;
+	}
+	
+	@GetMapping("/ajax/test")
+	@ResponseBody
+	public List<String> mybatisTest() {
+		return mybatisTestService.get();	
 	}
 	
 }
