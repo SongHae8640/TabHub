@@ -37,6 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
+	
+	//리멤버미 데이터소스
+	@Autowired
+	@SuppressWarnings("SpringJavaAutowiringInspection")
+	private DataSource dataSource;
+	
+	@Autowired
+	private PersistentTokenRepository persistentTokenRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -83,9 +91,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.and()
 	    	.rememberMe()
 	    	.rememberMeParameter("remember-me")
-			.key("myUniqueKey")
-			.rememberMeCookieName("websparrow-login-remember-me")
-			.tokenValiditySeconds(10000000)
+			.key("myTabhubUniqueKey") //시그니처 생성시 사용되는 고유한 키
+			.rememberMeCookieName("tabhub-login-remember-me") //클라이언트 쪽에 저장되는 쿠키명
+			.tokenValiditySeconds(3000)
+			.tokenRepository(persistentTokenRepository)
     	.and()
     		.exceptionHandling()
     			.accessDeniedHandler(customAccessDeniedHandler)
@@ -119,6 +128,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return httpSessionSecurityContextRepository;
     }
     
-    
+    //영구토큰 기반의 remember-me를 설정하기 위해 데이터 소스 가리키도록 설정
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+    	JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+		db.setDataSource(dataSource);
+    	return db;
+    }
     
 }
