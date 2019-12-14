@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/axios")
+@Controller
 public class MainController {
 	
-	@GetMapping("/posts/recommend/{accountId}")
+	@GetMapping("/")
+	public String goMainPage() {
+		
+		return "index";
+	}
+	
+	@GetMapping("/axios/posts/recommend/{accountId}")
 	public String getRecommends(@PathVariable int accountId) {
 		//메인페이지 추천 탭그룹, 사용자별로 다르게 보내주기
 		//id, title, writer, views
@@ -21,7 +26,7 @@ public class MainController {
 		return "getRecommends : "+result;
 	}
 	
-	@GetMapping("/notifications/count/{accountId}")
+	@GetMapping("/axios/notifications/count/{accountId}")
 	public String getNotificationCount(@PathVariable int accountId) {
 		//사용자별 알림개수 보내주기
 		return "";
