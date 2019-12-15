@@ -24,5 +24,12 @@ public class WebConfig implements WebMvcConfigurer{
 	public InternalResourceViewResolver viewResolver() {
 		return new InternalResourceViewResolver("/WEB-INF/jsp/", ".jsp");
 	}
+	
+	//디폴트서블릿 핸들러를 등록 (jsp파일 외의 파일들(ex.css,js...)의 경로처리를 위한 핸들러) 
+	@Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
 }

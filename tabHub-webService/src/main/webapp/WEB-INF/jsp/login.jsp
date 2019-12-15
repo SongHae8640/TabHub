@@ -6,10 +6,6 @@
 <meta charset="UTF-8">
 <title>login</title>
 <%@ include file="/WEB-INF/jsp/template/header.jsp" %>
-<link rel="stylesheet" href="/resources/css/bootstrap.min.css" type="text/css">
-<script src="/resources/js/jquery-3.4.1.min.js"></script>
-<script src="/resources/js/popper.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="container">
