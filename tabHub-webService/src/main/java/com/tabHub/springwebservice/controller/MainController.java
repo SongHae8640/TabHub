@@ -13,8 +13,7 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String goMainPage() {
-		
-		return "index";
+		return "main";
 	}
 	
 	@GetMapping("/axios/posts/recommend/{accountId}")

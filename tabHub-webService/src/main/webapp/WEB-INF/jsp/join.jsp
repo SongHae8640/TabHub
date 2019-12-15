@@ -1,13 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 	<head>
 	<meta charset="UTF-8">
 	<title>Join</title>
-	<link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
-	<script src="/static/js/jquery-3.4.1.min.js"></script>
-	<script src="/static/js/poper.min.js"></script>
-	<script src="/static/js/bootstrap.min.js"></script>
+	<%@ include file="/WEB-INF/jsp/template/header.jsp" %>
 	</head>
 	<body>
 		<div class="container">
