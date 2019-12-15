@@ -36,7 +36,6 @@ out/
 *.class
 *.metadata
 gradle/*
-*.gradle
 *.jar
 gradlew
 *.bat

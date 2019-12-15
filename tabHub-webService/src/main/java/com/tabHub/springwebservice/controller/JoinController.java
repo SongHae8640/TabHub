@@ -2,16 +2,25 @@ package com.tabHub.springwebservice.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabHub.springwebservice.service.AccountService;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class JoinController {
-	private static final Logger logger = LoggerFactory.getLogger(JoinController.class);
+	
+	@Autowired
+	AccountService accountService;
 	
 	@GetMapping("/account/join")
 	public String join() {
@@ -19,8 +28,20 @@ public class JoinController {
 	}
 	
 	@PostMapping("/account/join")
-	public String join(String id, String pw, String rePw, String email) {
-		logger.debug("id = "+id+", pw = "+pw+", rePw = "+rePw+", email = "+email);
-		return "";
+	public String join(@RequestParam String id, @RequestParam String pw, @RequestParam String rePw, @RequestParam String email) {
+		//pw와 rePw 일치 여부 확인
+		if(!pw.equals(rePw)) {
+			
+			///에러 메세지와 함께
+			//join 페이지로 이동
+			return "join";
+		}
+		
+		//해당 정보로 회원 가입
+		log.debug("id = "+id);
+		
+		
+		///mav로 변경해서 로그인 정보랑 같이 보냄
+		return "joinCheck";
 	}
 }

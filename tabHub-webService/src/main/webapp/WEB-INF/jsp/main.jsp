@@ -12,7 +12,7 @@
   	<div class="row">
       <div class="col-12">
         <a href="/login">login</a>
-        <a href="/join">join</a>
+        <a href="/account/join">join</a>
       </div>
     </div>
     <div class="row">
