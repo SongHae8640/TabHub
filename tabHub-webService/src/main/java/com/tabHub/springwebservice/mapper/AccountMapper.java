@@ -10,6 +10,6 @@ import com.tabHub.springwebservice.entity.AccountEntity;
 @Repository
 @Mapper
 public interface AccountMapper {
-	String getAccount();
+	List<AccountEntity> getAccount();
 
 }
