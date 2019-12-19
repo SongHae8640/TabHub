@@ -12,4 +12,8 @@ import com.tabHub.springwebservice.entity.AccountEntity;
 public interface AccountMapper {
 	List<AccountEntity> getAccount();
 
+	void insertAccount(AccountEntity accountEntity);
+
+	void deleteAccountById(String id);
+
 }

@@ -6,4 +6,13 @@
     <select id="getAccount" resultType="com.tabHub.springwebservice.entity.AccountEntity">
         SELECT * FROM webservice.account;
     </select>
+    
+    <insert id="insertAccount" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
+    	INSERT INTO webservice.account (ID, PASSWORD, EMAIL, ROLE, CHECK_CODE) 
+    	VALUE (#{id}, #{password}, #{email},'USER', #{emailCheckCode}); 
+    </insert>
+    
+    <delete id="deleteAccountById" parameterType="String">
+    	DELETE FROM webservice.account WHERE ID = #{id};
+    </delete>
 </mapper>

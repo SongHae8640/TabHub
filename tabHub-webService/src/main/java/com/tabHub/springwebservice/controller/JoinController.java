@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tabHub.springwebservice.entity.AccountEntity;
 import com.tabHub.springwebservice.service.AccountService;
+import com.tabHub.springwebservice.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +23,9 @@ public class JoinController {
 	
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@GetMapping("/account/join")
 	public String join() {
@@ -40,8 +45,26 @@ public class JoinController {
 		//해당 정보로 회원 가입
 		log.debug("id = "+id);
 		
+		AccountEntity accountEntity = new AccountEntity();
+		accountEntity.setId(id);
+		accountEntity.setPassword(pw);
+		accountEntity.setEmail(email);
+		
+		//계정 추가
+		accountService.insertAccount(accountEntity);
+		
+		//이메일 발송
+		emailService.sendMail(accountEntity.getEmail(), "Tab Hub 가입을 축하드립니다.", "email check code : "+accountEntity.getEmailCheckCode());
+		
 		
 		///mav로 변경해서 로그인 정보랑 같이 보냄
 		return "joinCheck";
+	}
+	
+	
+	@PostMapping("/account/joinCheck")
+	public String join(@RequestParam String id) {
+		
+		return "main";
 	}
 }
