@@ -2,27 +2,18 @@ package com.tabHub.springwebservice.controller;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.RememberMeAuthenticationProvider;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -36,11 +27,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.tabHub.springwebservice.service.UserDetailsServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class LoginController {
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
 	
 	//security
 	@Autowired
@@ -57,13 +52,14 @@ public class LoginController {
 	
 	@GetMapping("/account/login")
 	public String login() {
-		logger.debug("loginPage");
+		log.debug("loginPage");
 		return "login";
 	}
 	
+	
 	@PostMapping("/account/login")
 	public String login(String id, String pw) {
-		logger.debug("id = "+id+", pw = "+pw);
+		log.debug("id = "+id+", pw = "+pw);
 		return "";
 	}
 
@@ -82,7 +78,7 @@ public class LoginController {
 
 		try {
 			// 로그인
-			logger.debug(rememberMe);
+			log.debug(rememberMe);
 			if(rememberMe.equals("on") || rememberMe.equals("true")) {
 				rememberMeServices.loginSuccess(request, response, authenticationManager.authenticate(token));
 				Authentication rememberMeAuth = rememberMeServices.autoLogin(request,response);
@@ -114,8 +110,8 @@ public class LoginController {
 	@ResponseBody
 	public ModelMap isAutoLogin(HttpServletRequest request, HttpServletResponse response, @CookieValue(value="tabhub-login-remember-me", required = false) Cookie rememberMeCookie) throws IOException, ServletException {
 		ModelMap map = new ModelMap();
-		logger.debug(rememberMeCookie.getName());
-		logger.debug(rememberMeCookie.getValue());
+		log.debug(rememberMeCookie.getName());
+		log.debug(rememberMeCookie.getValue());
 		
 		try {
 			

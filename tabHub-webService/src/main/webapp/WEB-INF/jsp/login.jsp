@@ -25,7 +25,6 @@
       </div>
       <a class="float-left" href="/join">join</a>
       <button type="submit" class="btn btn-primary float-right">Submit</button>
-
     </form>
   </div>
 </body>

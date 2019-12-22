@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tabHub.springwebservice.mapper.AccountMapper">
+<!--
+    <select id="getAccount" resultType="com.tabHub.springwebservice.entity.AccountEntity">
+        SELECT * FROM webservice.account;
+    </select>
+ -->
+    
+    <select id="getAccount" parameterType="com.tabHub.springwebservice.entity.AccountEntity" resultType="com.tabHub.springwebservice.entity.AccountEntity">
+        SELECT * FROM webservice.account WHERE ID = #{id} AND PASSWORD = #{password};
+    </select>
+    
+    <insert id="insertAccount" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
+    	INSERT INTO webservice.account (ID, PASSWORD, EMAIL, ROLE, CHECK_CODE) 
+    	VALUE (#{id}, #{password}, #{email},'UNCERTIFID', #{emailCheckCode}); 
+    </insert>
+    
+    <delete id="deleteAccountById" parameterType="String">
+    	DELETE FROM webservice.account WHERE ID = #{id};
+    </delete>
+    
+    <update id="upodateAccountRoleToUser" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
+    	UPDATE webservice.account SET ROLE = 'USER' WHERE ID =#{id} AND PASSWORD = #{password}
+    </update>
+</mapper>

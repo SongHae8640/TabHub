@@ -4,6 +4,8 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+**/bin/**
+
 
 ### STS ###
 .apt_generated
@@ -35,10 +37,10 @@ out/
 *.class
 *.metadata
 gradle/*
-*.gradle
 *.jar
 gradlew
 *.bat
+<<<<<<< HEAD
 
 
 ### key ###
@@ -49,3 +51,6 @@ tabHub-webService/src/main/resources/application.properties
 
 ### security tutorial ###
 **/spring-webservice-security-tutorial/**
+=======
+*/application.properties
+>>>>>>> web

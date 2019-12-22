@@ -31,6 +31,4 @@ public class WebConfig implements WebMvcConfigurer{
             DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-	
-
 }

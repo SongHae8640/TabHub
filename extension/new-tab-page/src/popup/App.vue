@@ -46,7 +46,7 @@
     <div v-else id="auth">
       <div v-if="isLoginPage">
         <h1>Login</h1>
-        <form action="http://localhost:8080/ajax/account/login">
+        <form action="http://localhost:9091/ajax/account/login">
           <div class="form-group">
             <label for="id">ID</label>
             <input class="form-control" id="id" name="id" placeholder="Enter ID" v-model="accountData.id">
