@@ -1,5 +1,7 @@
 package com.tabHub.springwebservice.controller;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +24,7 @@ public class JoinControllerTest {
 	private EmailService emailService;
 
 	
-	@Test
+	//@Test
 	public void join() {
 		AccountEntity accountEntity = new AccountEntity();
 		accountEntity.setId("test");
@@ -33,9 +35,27 @@ public class JoinControllerTest {
 		
 		accountService.insertAccount(accountEntity);
 		
-		emailService.sendMail(accountEntity.getEmail(), "test", "email check code : "+accountEntity.getEmailCheckCode());
+		//이메일 발송
+		emailService.sendMail(accountEntity.getEmail(), "Tab Hub 가입을 축하드립니다.", "email check code : "+accountEntity.getEmailCheckCode());
+		
+		
 		
 	}
+	
+	@Test
+	public void 이메일_인증() {
+		AccountEntity accountEntity = new AccountEntity();
+		accountEntity.setId("test");
+		accountEntity.setEmail("thdgo456@naver.com");
+		accountEntity.setPassword("1234");
+		accountEntity.setEmailCheckCode("1427478");
+		
+		int result = accountService.AuthenticateByEamil(accountEntity);
+		
+		assertNotEquals(0, result);
+		
+	}
+	
 	
 
 }

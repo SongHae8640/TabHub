@@ -20,15 +20,16 @@ public class AccountServiceTest {
 	@Autowired
 	private AccountMapper accountMapper;
 	
-	@Test
-	public void dbConnectionTest() {
-		List<AccountEntity> accountList = accountMapper.getAccount();
-		
-//		for (int i = 0; i < accountList.size(); i++) {
-//			log.debug(accountList.get(i).toString());
-//		}
-		
-		assertNotEquals(0, accountList.size());
-	}
+//	@Test
+//	public void dbConnectionTest() {
+//		List<AccountEntity> accountList = accountMapper.getAccount();
+//		
+////		for (int i = 0; i < accountList.size(); i++) {
+////			log.debug(accountList.get(i).toString());
+////		}
+//		
+//		assertNotEquals(0, accountList.size());
+//	}
+	
 	
 }

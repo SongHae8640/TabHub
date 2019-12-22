@@ -63,8 +63,18 @@ public class JoinController {
 	
 	
 	@PostMapping("/account/joinCheck")
-	public String join(@RequestParam String id) {
+	public String join(@RequestParam String confirmCode) {
+		AccountEntity accountEntity = new AccountEntity();
+		accountEntity.setId("test");
+		accountEntity.setEmail("thdgo456@naver.com");
+		accountEntity.setPassword("1234");
+		accountEntity.setEmailCheckCode(confirmCode);
 		
+		int result = accountService.AuthenticateByEamil(accountEntity);
+		
+		if(result == 0) {
+			return "errorPage";
+		}
 		return "main";
 	}
 }
