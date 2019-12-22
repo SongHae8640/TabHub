@@ -1,52 +1,42 @@
-package com.tabHub.springwebservice.security;
+package com.tabHub.springwebservice.config;
 
-import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
+
+import com.tabHub.springwebservice.service.UserDetailsServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Slf4j //logger 사용
 @Configuration
 @EnableWebSecurity //springSecurityFilterChain 자동 포함
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Autowired
-	private CustomAccessDeniedHandler customAccessDeniedHandler;
-	
-	//리멤버미 데이터소스
-	@Autowired
-	@SuppressWarnings("SpringJavaAutowiringInspection")
-	private DataSource dataSource;
-	
-	@Autowired
-	private PersistentTokenRepository persistentTokenRepository;
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
+	@Autowired
+	UserDetailsServiceImpl userDetailsServiceImpl;
+	
+	
+ 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //유저 인증 정보를 설정 할 수 있다. jdbc와 연결
     	
@@ -61,8 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
     	// static 파일 (css, js 등)인증이 필요 없는 리소스 설정
-    	web.ignoring()
-    		.antMatchers("static/**");
+    	//web.ignoring()
+    	//	.antMatchers("static/**");
     }
 
     @Override
@@ -79,13 +69,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().permitAll() // 다른 요청은 누구든지 접근 할 수 있다.
 		.and()
 		    .formLogin() // 로그인 form 을 사용한다.
-		    .loginPage("/login")	//로그인 페이지 추가
+		    .loginPage("/account/login")	//로그인 페이지 추가
     		.usernameParameter("id")	//지정한  id의 name
-    		.passwordParameter("pw")	//지정한  id의 pw
+    		.passwordParameter("password")	//지정한  id의 pw
     		.failureForwardUrl("/login?error=true")
     	.and()
     		.logout()
     		.deleteCookies("JSESSIONID")
+    		.deleteCookies("tabhub-login-remember-me")
     		.clearAuthentication(true)
     		.invalidateHttpSession(true)
     	.and()
@@ -94,46 +85,50 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.key("myTabhubUniqueKey") //시그니처 생성시 사용되는 고유한 키
 			.rememberMeCookieName("tabhub-login-remember-me") //클라이언트 쪽에 저장되는 쿠키명
 			.tokenValiditySeconds(3000)
-			.tokenRepository(persistentTokenRepository)
-    	.and()
-    		.exceptionHandling()
-    			.accessDeniedHandler(customAccessDeniedHandler)
     	.and()
     		.cors()
     	.and()
     		.csrf().disable()
     	;
     }
-    
+
+ 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    
-    @Bean
-    public UserDetailsService userDetailsService() {
-    	return new UserDetailsServiceImpl();
-    }
-    
-    
-    @Override
+	    
+	
+	@Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
     	return super.authenticationManagerBean();
     }
-    
-    @Bean
+	
+	@Bean
     public SecurityContextRepository httpSessionSecurityContextRepository(){
         HttpSessionSecurityContextRepository httpSessionSecurityContextRepository = new HttpSessionSecurityContextRepository();
         return httpSessionSecurityContextRepository;
     }
-    
-    //영구토큰 기반의 remember-me를 설정하기 위해 데이터 소스 가리키도록 설정
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-    	JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-		db.setDataSource(dataSource);
-    	return db;
+	
+	@Bean
+    public UserDetailsService userDetailsService() {
+//		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//		UserDetails user = User.withUsername("user")
+//		.password(encoder.encode("1234"))
+//		.roles("USER").build();
+//		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//		manager.createUser(user);
+//		return manager;
+    	return new UserDetailsServiceImpl();
     }
-    
+	
+	@Bean
+    public TokenBasedRememberMeServices tokenBasedRememberMeServices() {
+        TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices("myTabhubUniqueKey", userDetailsServiceImpl);
+        rememberMeServices.setAlwaysRemember(true);
+        rememberMeServices.setTokenValiditySeconds(3000);
+        rememberMeServices.setCookieName("tabhub-login-remember-me");
+        return rememberMeServices;
+    }
 }

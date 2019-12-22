@@ -14,16 +14,18 @@ export default{
 
             $.ajax({
                 method : 'POST',
-                url : 'http://localhost:9091/ajax/account/login',
+                url : 'http://localhost:8080/ajax/account/login',
                 data :{
                     id : accountData.id,
-                    password : accountData.pw
+                    password : accountData.pw,
+                    "remember-me" : accountData.rememberMe
                 },
                 success : function(response){
                     console.log(response)
                     resolve(response.success)
                 },
                 error : function(response){
+                    console.log(response)
                     resolve(false)
                 }
 
@@ -51,7 +53,7 @@ export default{
             //비동기 통신
             $.ajax({
                 method : 'POST',
-                url : 'http://localhost:9091/logout',
+                url : 'http://localhost:8080/logout',
                 success : function(response, textStatus, jqXHR){
                     console.log(textStatus, jqXHR)
                     resolve(textStatus ==='success')

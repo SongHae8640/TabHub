@@ -46,7 +46,7 @@
     <div v-else id="auth">
       <div v-if="isLoginPage">
         <h1>Login</h1>
-        <form >
+        <form action="http://localhost:8080/ajax/account/login">
           <div class="form-group">
             <label for="id">ID</label>
             <input class="form-control" id="id" name="id" placeholder="Enter ID" v-model="accountData.id">
@@ -57,11 +57,11 @@
           </div>
           <div class="form-group">
             <label for="remember-me">auto Login</label>
-            <input type="checkbox" name="remember-me">
+            <input type="checkbox" name="remember-me" v-model="accountData.rememberMe">
           </div>
           <a class="float-left" v-on:click="onClickJoinPageBtn">join</a>
           <button v-on:click="onClickMainPageBtn" class="btn btn-primary float-right">cancel</button>
-          <button v-on:click="onClickLoginBtn" type="button" class="btn btn-primary float-right">Submit</button>
+          <button v-on:click="onClickLoginBtn" type="submit" class="btn btn-primary float-right">Submit</button>
         </form>
       </div>
       <div v-else>
@@ -138,6 +138,7 @@
           rePw :'',
           email :'',
           confirmCode : '',
+          rememberMe : ''
         }
 
       }
