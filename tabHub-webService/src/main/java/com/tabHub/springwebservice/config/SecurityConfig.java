@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		    .loginPage("/account/login")	//로그인 페이지 추가
     		.usernameParameter("id")	//지정한  id의 name
     		.passwordParameter("password")	//지정한  id의 pw
-    		.failureForwardUrl("/login?error=true")
+    		.failureForwardUrl("/accoutn/login?error=true")
     	.and()
     		.logout()
     		.deleteCookies("JSESSIONID")
