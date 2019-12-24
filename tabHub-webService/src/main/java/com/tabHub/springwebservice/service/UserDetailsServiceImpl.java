@@ -29,7 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-    	log.debug(username);
         Account account = userMapper.readUser(username);
         
         //java.lang.IllegalArgumentException: There is no PasswordEncoder mapped for the id "null"

@@ -1,6 +1,10 @@
 package com.tabHub.springwebservice.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tabHub.springwebservice.entity.AccountEntity;
 import com.tabHub.springwebservice.service.AccountService;
 import com.tabHub.springwebservice.service.EmailService;
+import com.tabHub.springwebservice.service.UserDetailsServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +25,9 @@ public class JoinController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@GetMapping("/account/join")
 	public String join() {
@@ -37,12 +45,7 @@ public class JoinController {
 		}
 		
 		//해당 정보로 회원 가입
-		log.debug("id = "+id);
-		
-		AccountEntity accountEntity = new AccountEntity();
-		accountEntity.setId(id);
-		accountEntity.setPassword(pw);
-		accountEntity.setEmail(email);
+		AccountEntity accountEntity = new AccountEntity(id,pw,email);
 		
 		//계정 추가
 		accountService.insertAccount(accountEntity);
@@ -55,19 +58,27 @@ public class JoinController {
 		return "joinCheck";
 	}
 	
+	@GetMapping("/account/joinCheck")
+	public String goJoinCheck() {
+		return "joinCheck";
+	}
+	
 	
 	@PostMapping("/account/joinCheck")
-	public String join(@RequestParam String confirmCode) {
-		AccountEntity accountEntity = new AccountEntity();
-		accountEntity.setId("test");
-		accountEntity.setEmail("thdgo456@naver.com");
-		accountEntity.setPassword("1234");
+	public String join(@RequestParam String confirmCode, Principal principal) {
+		log.debug("principal name =  {}, {}",principal.getName(), principal.toString());
+		
+		UserDetails user = userDetailsServiceImpl.loadUserByUsername(principal.getName());
+		
+		AccountEntity accountEntity = new AccountEntity(user);
+		accountEntity.setPassword(accountEntity.getPassword().substring(6));
 		accountEntity.setEmailCheckCode(confirmCode);
+		log.debug(accountEntity.toString());
 		
 		int result = accountService.AuthenticateByEamil(accountEntity);
 		
 		if(result == 0) {
-			return "errorPage";
+			return "/account/joinCheck";
 		}
 		return "main";
 	}

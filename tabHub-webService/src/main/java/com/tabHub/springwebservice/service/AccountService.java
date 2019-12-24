@@ -44,8 +44,10 @@ public class AccountService {
 		
 		//role을 USER로 변경
 		accountMapper.upodateAccountRoleToUser(accountEntity);
-		
-		return result;
+		accountEntityList = accountMapper.getAccount(accountEntity);
+		accountEntity = accountEntityList.get(0);
+		if(accountEntity.getRole().equals("USER")) return 1;	
+		return 0;
 		
 	}
 	

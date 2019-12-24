@@ -24,7 +24,7 @@ public class JoinControllerTest {
 	private EmailService emailService;
 
 	
-	//@Test
+	@Test
 	public void join() {
 		AccountEntity accountEntity = new AccountEntity();
 		accountEntity.setId("test");
@@ -40,7 +40,7 @@ public class JoinControllerTest {
 	
 	}
 	
-	@Test
+	//@Test
 	public void 이메일_인증() {
 		AccountEntity accountEntity = new AccountEntity();
 		accountEntity.setId("test");

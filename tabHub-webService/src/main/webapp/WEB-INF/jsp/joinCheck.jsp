@@ -11,7 +11,7 @@
 	<body>
 		<div class="container">
 		    <h1>Join Check</h1>
-		    <form action="/account/join" method="post">
+		    <form action="/account/joinCheck" method="post">
 		      <div class="form-group">
 		        <label for="email">E-mail</label>
 		        <div class="container">
@@ -19,8 +19,8 @@
 		          	<span>예시 로 이메일 확인 코드를 보냈습니다. 받은 코드를 입력해 주세요.</span>  
 		          </div>
 		          <div class="row" >
-		            <input type="text" class="col-3 form-control" id="confirm-code" placeholder="code">
-		            <button type="button" class="col-3 btn btn-secondary">Check</button>
+		            <input type="text" class="col-3 form-control" id="confirm-code" name="confirmCode" placeholder="code">
+		            <button type="submit" class="col-3 btn btn-secondary">Check</button>
 		            <span>fail code</span>
 		          </div>
 		        </div>

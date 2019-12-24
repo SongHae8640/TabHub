@@ -35,6 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;
 	
+	@Autowired
+	private UserDeniedHandler userDeniedHandler;
+	
 	
  	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -64,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	// 리소스 보안 부분 
     	http // HttpSecurity 객체를 설정한다.
         .authorizeRequests() // 권한요청 처리 설정 메서드이다.
-        .antMatchers("/private/**").hasAnyRole("USER") // /private 이하의 모든 요청은 USER 역할이 있어야한다.
+        .antMatchers("/mypage/**").hasAnyRole("USER") // /private 이하의 모든 요청은 USER 역할이 있어야한다.
         .antMatchers("/admin/**").hasAnyRole("ADMIN")	// admin 이하의 모든 요청은 ADMIN 역할이 있어야 한다.
         .anyRequest().permitAll() // 다른 요청은 누구든지 접근 할 수 있다.
 		.and()
@@ -86,10 +89,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.rememberMeCookieName("tabhub-login-remember-me") //클라이언트 쪽에 저장되는 쿠키명
 			.tokenValiditySeconds(3000)
     	.and()
+    		.exceptionHandling()
+    			.accessDeniedHandler(userDeniedHandler)
+    	.and()
     		.cors()
     	.and()
     		.csrf().disable()
     	;
+    	
+
+    	
+   
     }
 
  
