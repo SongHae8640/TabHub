@@ -13,6 +13,7 @@
       <div class="col-12">
         <a href="/account/login">login</a>
         <a href="/account/join">join</a>
+        <a href="/account/logout">logout</a>
       </div>
     </div>
     <div class="row">

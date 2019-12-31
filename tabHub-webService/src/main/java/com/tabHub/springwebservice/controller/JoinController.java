@@ -1,8 +1,14 @@
 package com.tabHub.springwebservice.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -78,8 +84,15 @@ public class JoinController {
 		int result = accountService.AuthenticateByEamil(accountEntity);
 		
 		if(result == 0) {
-			return "/account/joinCheck";
+			return "redirect:/account/joinCheck";
 		}
-		return "main";
+		
+		//권한 다시 로드하기
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+		updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+		SecurityContextHolder.getContext().setAuthentication(newAuth);
+		return "redirect:/";
 	}
 }

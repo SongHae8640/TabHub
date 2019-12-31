@@ -78,6 +78,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     		.failureForwardUrl("/accoutn/login?error=true")
     	.and()
     		.logout()
+    		.logoutUrl("/account/logout")
+    		.logoutSuccessUrl("/")
     		.deleteCookies("JSESSIONID")
     		.deleteCookies("tabhub-login-remember-me")
     		.clearAuthentication(true)

@@ -23,6 +23,6 @@
     </delete>
     
     <update id="upodateAccountRoleToUser" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
-    	UPDATE webservice.account SET ROLE = 'USER' WHERE ID =#{id} AND PASSWORD = #{password}
+    	UPDATE webservice.account SET ROLE = 'USER' WHERE ID =#{id} AND PASSWORD = #{password} AND CHECK_CODE = #{emailCheckCode}
     </update>
 </mapper>

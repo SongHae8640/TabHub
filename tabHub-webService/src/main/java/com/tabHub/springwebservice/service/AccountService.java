@@ -36,15 +36,10 @@ public class AccountService {
 	public int AuthenticateByEamil(AccountEntity accountEntity) {
 		int result = 0;
 		
-		//계정 확인
-		List<AccountEntity> accountEntityList = accountMapper.getAccount(accountEntity);
-		result = accountEntityList.size();
-		if(result == 0) return result;
-		
 		
 		//role을 USER로 변경
 		accountMapper.upodateAccountRoleToUser(accountEntity);
-		accountEntityList = accountMapper.getAccount(accountEntity);
+		List<AccountEntity> accountEntityList = accountMapper.getAccount(accountEntity);
 		accountEntity = accountEntityList.get(0);
 		if(accountEntity.getRole().equals("USER")) return 1;	
 		return 0;
