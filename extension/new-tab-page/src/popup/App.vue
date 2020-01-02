@@ -12,7 +12,8 @@
       <div class="container">
         <div v-if="isLogin" class="row">
             <div class="col-4">{{accountData.id}} 님 </div>
-            <div class="col-8" v-on:click="onClickLogoutBtn"><button>logout</button></div>
+            <div class="col-4" v-on:click="onClickLogoutBtn"><button>logout</button></div>
+            <div class="col-4" v-on:click="onClickSyncBtn"><button>sync</button></div>
 
         </div>
         <div v-else>
@@ -115,6 +116,7 @@
 <script>
   import LocalTabGroupsModel from './models/LocalTabGroupsModel.js'
   import AccountModel from './models/AccountModel.js'
+  import TabHubModel from './models/TabHubModel.js'
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
@@ -128,7 +130,7 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : false,
+        isLogin : true,
         isTabGroupPage : true,
         isLoginPage : true,
 
@@ -241,6 +243,11 @@
 
         }
       },
+
+      async onClickSyncBtn(){
+        var result = await TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData)
+        console.log(result)
+      }
     }
   }
 </script>

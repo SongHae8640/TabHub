@@ -39,6 +39,10 @@ dependencies {
     
     //SMTP
     compile("org.springframework.boot:spring-boot-starter-mail")
+    
+    //json
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+    
 	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'

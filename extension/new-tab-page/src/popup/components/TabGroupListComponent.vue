@@ -118,15 +118,15 @@
 				let _this = this
 				tabGroup.tabs = []
 				chrome.tabs.getAllInWindow(function(newTabs){
-	        if(newTabs.length === 0) return
+					if(newTabs.length === 0) return
 
-	        for (var i = 0; i< newTabs.length; i++) {
-	          tabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url, isEditMode:false})
-	        }
+					for (var i = 0; i< newTabs.length; i++) {
+					tabGroup.tabs.push({title : newTabs[i].title , url :newTabs[i].url, isEditMode:false})
+					}
 
-	        tabGroup.useDate = new Date().getTime()
-	        _this.$emit('@change', tabGroup) 
-	      })
+					tabGroup.useDate = new Date().getTime()
+					_this.$emit('@change', tabGroup) 
+				})
 			},
 			changeCategory(tabGroup, category){
 				tabGroup.category = category
