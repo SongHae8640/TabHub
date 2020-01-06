@@ -9,13 +9,16 @@ export default{
     
             //local과 허브의 tabGroup을 합침
 
-            console.log(tabgGroups[0])
+            console.log(tabgGroups)
+
     
             //합친 tabGroup을 허브에 저장
             $.ajax({
                 method : 'POST',
-                url : 'http://localhost:9091/ajax/account/'+accountData.id+'/tabGroup',
-                //data : tabgGroups[0],
+                url : 'http://localhost:9091/ajax/account/'+accountData.id+'/tabGroups',
+                contentType : 'application/json',
+                dataType : 'json',
+                data : JSON.stringify(tabgGroups) ,
                 sucess : function(response){
                     console.log(response)
                     resolve(response)

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tabHub.springwebservice.model.mapper.SyncTabGroupMapper">
+
+
+    
+    <insert id="insertTabGroup" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+	    INSERT webservice.SYNC_TG(
+			ID, 
+		    ACCOUNT_ID, 
+		    CATEGORY, 
+		    TITLE,
+		    LOCAL_ID, 
+		    USE_DATE
+		    ) 
+		VALUES(
+			(SELECT MAX(b.ID)+1 FROM webservice.SYNC_TG b),
+			#{accountId}, 
+		    #{category}, 
+		    #{title},
+		    #{localId},
+		    #{useDate}
+		    );
+	    <selectKey keyProperty="id" resultType="Long" order="AFTER">
+    		SELECT MAX(ID) FROM webservice.SYNC_TG
+    	</selectKey>
+    </insert>
+    
+    <insert id="insertTab" parameterType="com.tabHub.springwebservice.entity.SyncTabEntity">
+    	INSERT webservice.SYNC_TAB(
+			SYNC_ID,
+		    TITLE,
+		    URL
+		)
+		VALUES(
+			#{syncId},
+		    #{title},
+		    #{url}
+		);
+    </insert>
+
+</mapper>

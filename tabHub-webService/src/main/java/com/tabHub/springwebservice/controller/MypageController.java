@@ -1,10 +1,12 @@
 package com.tabHub.springwebservice.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabHub.springwebservice.entity.SyncTabGroupEntity;
+import com.tabHub.springwebservice.service.SyncTabGroupService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MypageController {
 	
+	@Autowired
+	SyncTabGroupService syncTabGroupService;
+	
 	@GetMapping("/mypage")
 	public String goMypage() {
 		return "mypage";
@@ -32,15 +38,23 @@ public class MypageController {
 	
 	@ResponseBody
 	@CrossOrigin("*")
-	@PostMapping("/ajax/account/{accountId}/tabGroup")
-	public Map<String, Object> syncLocalAndTabHub(@PathVariable("accountId") String accountId, @RequestBody SyncTabGroupEntity syncTabGroup) {
+	@PostMapping("/ajax/account/{accountId}/tabGroups")
+	public Map<String, Object> syncLocalAndTabHub(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> syncTabGroups) {
 		Map<String , Object> map = new HashMap<String, Object>();
 		map.put("name", "호호");
 		map.put("age", 28);	
 		
 		
-		log.debug(syncTabGroup.toString());
+		for (SyncTabGroupEntity syncTabGroupEntity : syncTabGroups) {
+			
+			syncTabGroupEntity.setAccountId(accountId);
+			log.debug("syncTabGroupEntity = {}",syncTabGroupEntity.toString());
+		}
+		
 		log.debug("acccount id = {}",accountId);
+		
+		syncTabGroupService.syncLocalAndTabHub(syncTabGroups);
+		
 		
 		
 		return map;
