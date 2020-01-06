@@ -61,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
-    	log.debug(" 들어오는지 확인");
     	
     	
     	// 리소스 보안 부분 
@@ -93,6 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	.and()
     		.exceptionHandling()
     			.accessDeniedHandler(userDeniedHandler)
+    			
     	.and()
     		.cors()
     	.and()

@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tabHub.springwebservice.entity.AccountEntity;
-import com.tabHub.springwebservice.mapper.AccountMapper;
+import com.tabHub.springwebservice.model.mapper.AccountMapper;
 
+@Transactional
 @Service
 public class AccountService {
 	
@@ -34,11 +36,9 @@ public class AccountService {
 	}
 	
 	public int AuthenticateByEamil(AccountEntity accountEntity) {
-		int result = 0;
-		
 		
 		//role을 USER로 변경
-		accountMapper.upodateAccountRoleToUser(accountEntity);
+		accountMapper.updateAccountRoleToUser(accountEntity);
 		List<AccountEntity> accountEntityList = accountMapper.getAccount(accountEntity);
 		accountEntity = accountEntityList.get(0);
 		if(accountEntity.getRole().equals("USER")) return 1;	

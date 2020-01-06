@@ -1,4 +1,4 @@
-package com.tabHub.springwebservice.mapper;
+package com.tabHub.springwebservice.model.mapper;
 
 import java.util.List;
 
@@ -18,6 +18,6 @@ public interface AccountMapper {
 
 	void deleteAccountById(String id);
 	
-	void upodateAccountRoleToUser(AccountEntity accountEntity);
+	void updateAccountRoleToUser(AccountEntity accountEntity);
 
 }

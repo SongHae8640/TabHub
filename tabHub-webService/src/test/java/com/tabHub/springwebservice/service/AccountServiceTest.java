@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.tabHub.springwebservice.entity.AccountEntity;
-import com.tabHub.springwebservice.mapper.AccountMapper;
+import com.tabHub.springwebservice.model.mapper.AccountMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
