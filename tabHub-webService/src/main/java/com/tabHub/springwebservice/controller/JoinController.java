@@ -41,7 +41,12 @@ public class JoinController {
 	}
 	
 	@PostMapping("/account/join")
-	public String join(@RequestParam String id, @RequestParam String pw, @RequestParam String rePw, @RequestParam String email) {
+	public String join(
+			@RequestParam String id, 
+			@RequestParam String pw, 
+			@RequestParam String rePw, 
+			@RequestParam String email) {
+		
 		//pw와 rePw 일치 여부 확인
 		if(!pw.equals(rePw)) {
 			

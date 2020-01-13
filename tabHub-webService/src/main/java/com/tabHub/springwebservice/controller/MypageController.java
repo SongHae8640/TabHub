@@ -39,25 +39,19 @@ public class MypageController {
 	@ResponseBody
 	@CrossOrigin("*")
 	@PostMapping("/ajax/account/{accountId}/tabGroups")
-	public Map<String, Object> syncLocalAndTabHub(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> syncTabGroups) {
-		Map<String , Object> map = new HashMap<String, Object>();
-		map.put("name", "호호");
-		map.put("age", 28);	
-		
+	public List<SyncTabGroupEntity> syncLocalAndTabHub(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> syncTabGroups) {
 		
 		for (SyncTabGroupEntity syncTabGroupEntity : syncTabGroups) {
-			
 			syncTabGroupEntity.setAccountId(accountId);
 			log.debug("syncTabGroupEntity = {}",syncTabGroupEntity.toString());
 		}
 		
-		log.debug("acccount id = {}",accountId);
 		
 		syncTabGroupService.syncLocalAndTabHub(syncTabGroups);
 		
 		
 		
-		return map;
+		return syncTabGroups;
 	}
 	
 	

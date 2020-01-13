@@ -20,13 +20,33 @@ public class SyncTabGroupService {
 	SyncTabGroupMapper syncTabGroupMapper;
 
 	public void syncLocalAndTabHub(List<SyncTabGroupEntity> syncTabGroups) {
-		/// 기존 내용 조회
+		// 기존 내용 조회
+		List<SyncTabGroupEntity> oldSyncTabGroup = syncTabGroupMapper.selectTabGroupListByAccountId(syncTabGroups.get(0).getAccountId());
+		
+		for (SyncTabGroupEntity syncTabGroupEntity : oldSyncTabGroup) {
+			List<SyncTabEntity> tabs = syncTabGroupMapper.selectTabListBySyncId(syncTabGroupEntity.getId());
+			syncTabGroupEntity.setTabs(tabs);
+		}
+		System.out.println();
 		
 		/// 기존 탭그룹과 비교
 			/// 다르면 > 탭그룹 id에 해당하는 탭그룹 삭제 
 		
 			// 새로운 탭그룹 저장
-		for (SyncTabGroupEntity syncTabGroupEntity : syncTabGroups) {
+		//insertTabGroupList(syncTabGroups);
+		
+		
+		
+	}
+
+	public void deletTabGroupsAndTabs() {
+		syncTabGroupMapper.deleteTabGroups();
+		syncTabGroupMapper.deleteTabs();
+		
+	}
+
+	public void insertTabGroupList(List<SyncTabGroupEntity> oldTabGroupList) {
+		for (SyncTabGroupEntity syncTabGroupEntity : oldTabGroupList) {
 			syncTabGroupMapper.insertTabGroup(syncTabGroupEntity);
 			
 			///id 받아서 같이 insert 
@@ -40,8 +60,6 @@ public class SyncTabGroupService {
 			
 			System.out.println();
 		}
-		
-		
 		
 	}
 	

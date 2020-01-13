@@ -16,7 +16,7 @@
 		    USE_DATE
 		    ) 
 		VALUES(
-			(SELECT MAX(b.ID)+1 FROM webservice.SYNC_TG b),
+			(SELECT ifnull(MAX(a.ID)+1,1) FROM webservice.SYNC_TG a),
 			#{accountId}, 
 		    #{category}, 
 		    #{title},
@@ -41,4 +41,23 @@
 		);
     </insert>
 
+    <select id="selectTabGroupListByAccountId" parameterType="String" resultType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+    	SELECT * 
+    	FROM webservice.SYNC_TG 
+    	WHERE ACCOUNT_ID = #{accountId };
+    </select>
+    
+    <select id="selectTabListBySyncId" parameterType="Long" resultType="com.tabHub.springwebservice.entity.SyncTabEntity">
+    	SELECT * 
+    	FROM webservice.SYNC_TAB 
+    	WHERE SYNC_ID = #{syncId };
+    </select>
+    
+    <delete id="deleteTabGroups">
+    	DELETE FROM webservice.SYNC_TG;
+    </delete>
+    
+    <delete id="deleteTabs">
+    	DELETE FROM webservice.SYNC_TAB;
+    </delete>
 </mapper>
