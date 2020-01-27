@@ -9,7 +9,7 @@ export default{
     
             //local과 허브의 tabGroup을 합침
 
-            console.log(tabgGroups)
+
 
     
             //합친 tabGroup을 허브에 저장
@@ -19,14 +19,14 @@ export default{
                 contentType : 'application/json',
                 dataType : 'json',
                 data : JSON.stringify(tabgGroups) ,
-                sucess : function(response){
+                success : function(response){
                     console.log(response)
                     resolve(response)
                 },
                 errror : function(response){
                     console.log(response)
                     resolve(response)
-                }
+                },
 
             })
 

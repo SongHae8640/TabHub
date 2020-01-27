@@ -245,8 +245,9 @@
       },
 
       async onClickSyncBtn(){
-        var result = await TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData)
-        console.log(result)
+        this.tabGroups = await TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData)
+        console.log(this.tabGroups);
+
       }
     }
   }

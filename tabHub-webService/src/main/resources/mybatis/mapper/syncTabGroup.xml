@@ -42,15 +42,24 @@
     </insert>
 
     <select id="selectTabGroupListByAccountId" parameterType="String" resultType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
-    	SELECT * 
-    	FROM webservice.SYNC_TG 
-    	WHERE ACCOUNT_ID = #{accountId };
+    	SELECT 
+    	       ID
+    	     , ACCOUNT_ID AS accountId
+    	     , CATEGORY
+    	     , LOCAL_ID AS localId
+    	     , USE_DATE AS useDate
+    	     , TITLE 
+    	  FROM webservice.SYNC_TG 
+    	  WHERE ACCOUNT_ID = #{accountId };
     </select>
     
     <select id="selectTabListBySyncId" parameterType="Long" resultType="com.tabHub.springwebservice.entity.SyncTabEntity">
-    	SELECT * 
-    	FROM webservice.SYNC_TAB 
-    	WHERE SYNC_ID = #{syncId };
+    	SELECT 
+    	       SYNC_ID AS syncId
+    	     , TITLE
+    	     , URL
+    	  FROM webservice.SYNC_TAB 
+    	 WHERE SYNC_ID = #{syncId };
     </select>
     
     <delete id="deleteTabGroups">

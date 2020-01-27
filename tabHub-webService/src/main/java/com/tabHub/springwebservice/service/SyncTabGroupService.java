@@ -2,7 +2,10 @@ package com.tabHub.springwebservice.service;
 
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,23 +22,25 @@ public class SyncTabGroupService {
 	@Autowired
 	SyncTabGroupMapper syncTabGroupMapper;
 
-	public void syncLocalAndTabHub(List<SyncTabGroupEntity> syncTabGroups) {
-		// 기존 내용 조회
-		List<SyncTabGroupEntity> oldSyncTabGroup = syncTabGroupMapper.selectTabGroupListByAccountId(syncTabGroups.get(0).getAccountId());
+	public List<SyncTabGroupEntity> syncExtensionWithTabHub(List<SyncTabGroupEntity> newSyncTabGroups) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		User user = (User) auth.getPrincipal();
+		String tempAccountId = "user";
 		
-		for (SyncTabGroupEntity syncTabGroupEntity : oldSyncTabGroup) {
+		//새로운 탭그룹 저장
+		insertTabGroupList(newSyncTabGroups);
+		
+		
+		// 합쳐진 탭그룹 조회
+		List<SyncTabGroupEntity> sumSyncTabGroup = syncTabGroupMapper.selectTabGroupListByAccountId(tempAccountId);
+		
+		for (SyncTabGroupEntity syncTabGroupEntity : sumSyncTabGroup) {
 			List<SyncTabEntity> tabs = syncTabGroupMapper.selectTabListBySyncId(syncTabGroupEntity.getId());
 			syncTabGroupEntity.setTabs(tabs);
 		}
-		System.out.println();
-		
-		/// 기존 탭그룹과 비교
-			/// 다르면 > 탭그룹 id에 해당하는 탭그룹 삭제 
-		
-			// 새로운 탭그룹 저장
-		//insertTabGroupList(syncTabGroups);
 		
 		
+		return sumSyncTabGroup;
 		
 	}
 
