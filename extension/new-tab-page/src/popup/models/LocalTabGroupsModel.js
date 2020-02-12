@@ -28,6 +28,7 @@ export default {
 
   async addCreatedData(newTitle){
     let newTabGroup = await this.createNewTabGroup(newTitle)
+    debugger;
     this.data.push(newTabGroup)
     this.sortDataByDate()
     this.setData()

@@ -18,7 +18,4 @@ public class SyncTabGroupEntity {
 	private Long localId;
 	private Long useDate;
 	private List<SyncTabEntity> tabs;
-
-
-
 }

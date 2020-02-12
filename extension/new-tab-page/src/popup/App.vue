@@ -160,12 +160,14 @@
     },
     methods:{
     	onClickTabsMenu(tabsMenu){
-    		this.selectedTabsMenu = tabsMenu
+        this.selectedTabsMenu = tabsMenu
+
     	},
       isFavorite(){
         return this.selectedTabsMenu === this.tabsMenu[0]
       },
       onAddTabGroup(title){
+
         LocalTabGroupsModel.addCreatedData(title)
       },
       async onDeleteTabGroup(tabGroupId){
@@ -185,12 +187,14 @@
 
       },
       onAddTab(tabGroup){
+        console.log(this.tabGroups);
         LocalTabGroupsModel.changeData(tabGroup,this.tabGroups)
       },
 
       fetchChromeTabGroups(){
         LocalTabGroupsModel.getData().then(data =>{
           this.tabGroups = data
+          console.log(this.tabGroups)
         })
       },
 
@@ -244,9 +248,11 @@
         }
       },
 
-      async onClickSyncBtn(){
-        this.tabGroups = await TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData)
-        console.log(this.tabGroups);
+      onClickSyncBtn(){
+        TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData).then(data =>{
+          console.log("synced tabGroup :: ",data);
+          this.tabGroups = data;
+        })
 
       }
     }

@@ -60,10 +60,8 @@ public class MypageController {
 		
 		
 		List<SyncTabGroupEntity> sumSyncTabGroups = syncTabGroupService.syncExtensionWithTabHub(newSyncTabGroups);
-		
-		
-		
 		return sumSyncTabGroups;
+
 	}
 	
 	
