@@ -117,6 +117,7 @@
   import LocalTabGroupsModel from './models/LocalTabGroupsModel.js'
   import AccountModel from './models/AccountModel.js'
   import TabHubModel from './models/TabHubModel.js'
+  import TabGroupModel from './models/TabGroupModel.js'
 
 	import TabMenuComponent from './components/TabMenuComponent.vue'
   import TabGroupListComponent from './components/TabGroupListComponent.vue'
@@ -130,7 +131,7 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : true,
+        isLogin : false,
         isTabGroupPage : true,
         isLoginPage : true,
 
@@ -166,36 +167,68 @@
       isFavorite(){
         return this.selectedTabsMenu === this.tabsMenu[0]
       },
-      onAddTabGroup(title){
+      async onAddTabGroup(title){
 
-        LocalTabGroupsModel.addCreatedData(title)
+        await TabGroupModel.addCreatedData(title)
+        if(this.isLogin){
+          TabGroupModel.addTabHubTabGroup();
+        }else{
+          TabGroupModel.setLocalTabGroups();
+        }
+        this.fetchChromeTabGroups();
       },
       async onDeleteTabGroup(tabGroupId){
-        await LocalTabGroupsModel.deleteData(tabGroupId)
+        await TabGroupModel.deleteData(tabGroupId)
+        if(this.isLogin){
+
+        }else{
+          await TabGroupModel.setLocalTabGroups();
+        }
         this.fetchChromeTabGroups()
       },
       onChangeTabGroup(tabGroup){
-        LocalTabGroupsModel.changeData(tabGroup)
+        if(isLogin){
+
+        }else{
+          LocalTabGroupsModel.changeData(tabGroup)
+        }
       },
       onChangeTabGroupTitle(tabGroup){
-        LocalTabGroupsModel.changeData(tabGroup)
+        if(isLogin){
+
+        }else{
+          LocalTabGroupsModel.changeData(tabGroup)
+        }
         ///디비와 싱크 때 따로 타이틀만 수정하기
       },
       async onSortTabGroup(tabGroup){
-        await LocalTabGroupsModel.changeData(tabGroup)
+        if(isLogin){
+
+        }else{
+          await LocalTabGroupsModel.changeData(tabGroup)
+        }
         this.fetchChromeTabGroups()
 
       },
       onAddTab(tabGroup){
-        console.log(this.tabGroups);
-        LocalTabGroupsModel.changeData(tabGroup,this.tabGroups)
+        if(isLogin){
+
+        }else{
+          LocalTabGroupsModel.changeData(tabGroup,this.tabGroups)
+        }
       },
 
       fetchChromeTabGroups(){
-        LocalTabGroupsModel.getData().then(data =>{
-          this.tabGroups = data
-          console.log(this.tabGroups)
-        })
+        console.log("fetchChromeTabGroups :: isLogin=", this.isLogin);
+        if(this.isLogin){
+          TabGroupModel.getTabHubTabGroup(this.accountData.id).then(data =>{
+            this.tabGroups = data;
+          })
+        }else{
+          TabGroupModel.getLocalTabGroups().then(data =>{
+            this.tabGroups = data;
+          })
+        }
       },
 
       onClickLoginPageBtn(){
@@ -249,11 +282,7 @@
       },
 
       onClickSyncBtn(){
-        TabHubModel.syncLocalAndTabHub(this.tabGroups, this.accountData).then(data =>{
-          console.log("synced tabGroup :: ",data);
-          this.tabGroups = data;
-        })
-
+        this.fetchChromeTabGroups()
       }
     }
   }

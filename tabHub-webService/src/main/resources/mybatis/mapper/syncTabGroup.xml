@@ -62,6 +62,18 @@
     	 WHERE SYNC_ID = #{syncId };
     </select>
     
+    <delete id="deleteTabsByTabGroupId">
+    	DELETE 
+		  FROM webservice.SYNC_TAB  
+		 WHERE SYNC_ID = #{syncId };
+    </delete>
+    
+    <delete id="deleteTabGroupByTabGroupId">
+    	DELETE 
+		  FROM webservice.SYNC_TG  
+		 WHERE ID = #{syncId };
+    </delete>
+    
     <delete id="deleteTabGroups">
     	DELETE FROM webservice.SYNC_TG;
     </delete>

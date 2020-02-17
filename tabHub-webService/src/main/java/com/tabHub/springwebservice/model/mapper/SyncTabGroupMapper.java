@@ -24,4 +24,8 @@ public interface SyncTabGroupMapper {
 
 	public void deleteTabs();
 
+	public void deleteTabsByTabGroupId(Long syncId);
+
+	public void deleteTabGroupByTabGroupId(Long syncId);
+
 }

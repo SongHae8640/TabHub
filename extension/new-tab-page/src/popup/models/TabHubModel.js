@@ -1,7 +1,6 @@
 export default {
     data : [],
     syncLocalAndTabHub(tabGroups, accountData){
-        debugger;
         this.data = tabGroups;
         var _this = this;
         return new Promise(function(resolve, reject){
@@ -36,7 +35,6 @@ export default {
         })
     },
     filterSyncedTabGroup(){
-        debugger;
         console.log("TabHubModel.filterSyncedTabGroup this.data :: ",this.data);
         this.data = this.data.filter(item => item.id === -1)
     },

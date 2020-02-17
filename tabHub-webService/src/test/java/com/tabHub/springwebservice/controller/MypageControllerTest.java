@@ -34,7 +34,7 @@ public class MypageControllerTest {
 		//SYNC_TG, SYNC_TAB에 초기값 넣기
 		List<SyncTabGroupEntity> oldTabGroupList = getTestTabGroupList();
 		
-		syncTabGroupService.insertTabGroupList(oldTabGroupList);
+		syncTabGroupService.addTabGroups(oldTabGroupList);
 	}
 	
 	

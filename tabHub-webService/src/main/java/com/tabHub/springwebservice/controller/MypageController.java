@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,7 @@ public class MypageController {
 	@ResponseBody
 	@CrossOrigin("*")
 	@PostMapping("/ajax/account/{accountId}/tabGroups")
-	public List<SyncTabGroupEntity> syncLocalWithGlobal(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> newSyncTabGroups) {
+	public List<SyncTabGroupEntity> addTabGroups(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> newTabGroups) {
 
 //		///로그인이 적용되어을때 사용
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -53,15 +54,24 @@ public class MypageController {
 //			///error and return
 //		}
 		
-		for (SyncTabGroupEntity syncTabGroupEntity : newSyncTabGroups) {
+		for (SyncTabGroupEntity syncTabGroupEntity : newTabGroups) {
 			syncTabGroupEntity.setAccountId(accountId);
 			log.debug("syncTabGroupEntity = {}",syncTabGroupEntity.toString());
 		}
 		
 		
-		List<SyncTabGroupEntity> sumSyncTabGroups = syncTabGroupService.syncExtensionWithTabHub(newSyncTabGroups);
-		return sumSyncTabGroups;
-
+		List<SyncTabGroupEntity> sumTabGroups = syncTabGroupService.addTabGroups(newTabGroups);
+		
+		return sumTabGroups;
+	}
+	
+	@ResponseBody
+	@CrossOrigin("*")
+	@DeleteMapping("/ajax/account/{accountId}/tabGroups")
+	public List<SyncTabGroupEntity> deleteTabGroups(@PathVariable("accountId") String accountId, List<SyncTabGroupEntity> deletedTabGroups){
+		List<SyncTabGroupEntity> tabGroups = syncTabGroupService.deleteTabGroups(deletedTabGroups);
+		
+		return tabGroups;
 	}
 	
 	
