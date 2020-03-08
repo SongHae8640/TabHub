@@ -87,6 +87,7 @@
 			        }
 				})
 				tabGroup.useDate = new Date().getTime();
+				console.log(tabGroup);
 				this.$emit('@sort', tabGroup)
 			},
 			onDeleteTabGroup(tabGroupId){

@@ -103,9 +103,7 @@ export default {
         tempData.push(this.data[i])
       }
     }
-
-    await this.sortDataByDate()
-    await this.setData() 
+    this.data = tempData;
   },
 
   sortDataByDate(){
@@ -116,6 +114,7 @@ export default {
 
   setLocalTabGroups(){
     let _data = this.data
+    console.log(this.data);
     return new Promise((resolve, reject) =>{
       debugger;
       chrome.storage.local.set({key : _data}, function(){

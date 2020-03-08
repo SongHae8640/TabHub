@@ -50,7 +50,8 @@
     	     , USE_DATE AS useDate
     	     , TITLE 
     	  FROM webservice.SYNC_TG 
-    	  WHERE ACCOUNT_ID = #{accountId };
+    	 WHERE ACCOUNT_ID = #{accountId }
+    	 ORDER BY USE_DATE DESC;
     </select>
     
     <select id="selectTabListBySyncId" parameterType="Long" resultType="com.tabHub.springwebservice.entity.SyncTabEntity">

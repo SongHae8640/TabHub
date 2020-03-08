@@ -194,7 +194,7 @@
         }
       },
       onChangeTabGroupTitle(tabGroup){
-        if(isLogin){
+        if(this.isLogin){
 
         }else{
           LocalTabGroupsModel.changeData(tabGroup)
@@ -202,19 +202,22 @@
         ///디비와 싱크 때 따로 타이틀만 수정하기
       },
       async onSortTabGroup(tabGroup){
-        if(isLogin){
+        await TabGroupModel.sortDataByDate();
+        if(this.isLogin){
 
         }else{
-          await LocalTabGroupsModel.changeData(tabGroup)
+          console.log(this.tabGroups);
+          await TabGroupModel.setLocalTabGroups();
         }
         this.fetchChromeTabGroups()
 
       },
       onAddTab(tabGroup){
-        if(isLogin){
+        if(this.isLogin){
 
         }else{
-          LocalTabGroupsModel.changeData(tabGroup,this.tabGroups)
+          TabGroupModel.changeData(tabGroup,this.tabGroups)
+          TabGroupModel.setLocalTabGroups();
         }
       },
 
