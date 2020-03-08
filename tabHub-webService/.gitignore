@@ -4,8 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-**/bin/**
-
 
 ### STS ###
 .apt_generated
@@ -29,28 +27,6 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-/bin/
 
 ### VS Code ###
 .vscode/
-
-*.class
-*.metadata
-gradle/*
-*.jar
-gradlew
-*.bat
-<<<<<<< HEAD
-
-
-### key ###
-*.ppk
-*.pem
-*.properties
-tabHub-webService/src/main/resources/application.properties
-
-### security tutorial ###
-**/spring-webservice-security-tutorial/**
-=======
-*/application.properties
->>>>>>> web

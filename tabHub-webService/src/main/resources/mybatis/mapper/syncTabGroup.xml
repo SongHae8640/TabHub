@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tabHub.springwebservice.model.mapper.SyncTabGroupMapper">
+
+
+    
+    <insert id="insertTabGroup" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+	    INSERT webservice.SYNC_TG(
+			ID, 
+		    ACCOUNT_ID, 
+		    CATEGORY, 
+		    TITLE,
+		    LOCAL_ID, 
+		    USE_DATE
+		    ) 
+		VALUES(
+			(SELECT ifnull(MAX(a.ID)+1,1) FROM webservice.SYNC_TG a),
+			#{accountId}, 
+		    #{category}, 
+		    #{title},
+		    #{localId},
+		    #{useDate}
+		    );
+	    <selectKey keyProperty="id" resultType="Long" order="AFTER">
+    		SELECT MAX(ID) FROM webservice.SYNC_TG
+    	</selectKey>
+    </insert>
+    
+    <insert id="insertTab" parameterType="com.tabHub.springwebservice.entity.SyncTabEntity">
+    	INSERT webservice.SYNC_TAB(
+			SYNC_ID,
+		    TITLE,
+		    URL
+		)
+		VALUES(
+			#{syncId},
+		    #{title},
+		    #{url}
+		);
+    </insert>
+
+    <select id="selectTabGroupListByAccountId" parameterType="String" resultType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+    	SELECT 
+    	       ID
+    	     , ACCOUNT_ID AS accountId
+    	     , CATEGORY
+    	     , LOCAL_ID AS localId
+    	     , USE_DATE AS useDate
+    	     , TITLE 
+    	  FROM webservice.SYNC_TG 
+    	 WHERE ACCOUNT_ID = #{accountId }
+    	 ORDER BY USE_DATE DESC;
+    </select>
+    
+    <select id="selectTabListBySyncId" parameterType="Long" resultType="com.tabHub.springwebservice.entity.SyncTabEntity">
+    	SELECT 
+    	       SYNC_ID AS syncId
+    	     , TITLE
+    	     , URL
+    	  FROM webservice.SYNC_TAB 
+    	 WHERE SYNC_ID = #{syncId };
+    </select>
+    
+    <delete id="deleteTabsByTabGroupId">
+    	DELETE 
+		  FROM webservice.SYNC_TAB  
+		 WHERE SYNC_ID = #{syncId };
+    </delete>
+    
+    <delete id="deleteTabGroupByTabGroupId">
+    	DELETE 
+		  FROM webservice.SYNC_TG  
+		 WHERE ID = #{syncId };
+    </delete>
+    
+    <delete id="deleteTabGroups">
+    	DELETE FROM webservice.SYNC_TG;
+    </delete>
+    
+    <delete id="deleteTabs">
+    	DELETE FROM webservice.SYNC_TAB;
+    </delete>
+</mapper>
