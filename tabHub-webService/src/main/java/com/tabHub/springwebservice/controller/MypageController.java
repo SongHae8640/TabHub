@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,6 +73,16 @@ public class MypageController {
 		List<SyncTabGroupEntity> tabGroups = syncTabGroupService.deleteTabGroups(deletedTabGroups);
 		
 		return tabGroups;
+	}
+	
+	@ResponseBody
+	@CrossOrigin("*")
+	@PutMapping("/ajax/account/{accountId}/tabGroup")
+	public List<SyncTabGroupEntity> updateTabGroup(@PathVariable("accountId") String accountId, List<SyncTabGroupEntity> updateTabGroups){
+		log.debug("updateTabGroup :: tabGroups",updateTabGroups);
+		
+		
+		return null;
 	}
 	
 	

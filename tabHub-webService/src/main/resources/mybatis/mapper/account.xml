@@ -15,7 +15,7 @@
     
     <insert id="insertAccount" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
     	INSERT INTO webservice.account (ID, PASSWORD, EMAIL, ROLE, CHECK_CODE) 
-    	VALUE (#{id}, #{password}, #{email}, , #{emailCheckCode}); 
+    	VALUE (#{id}, #{password}, #{email},'UNCERTIFIED' , #{emailCheckCode}); 
     </insert>
     
     <delete id="deleteAccountById" parameterType="String">

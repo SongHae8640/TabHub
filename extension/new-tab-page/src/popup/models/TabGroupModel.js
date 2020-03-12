@@ -1,5 +1,14 @@
 export default {
   data: [],
+
+  //CREATE
+  addTabHubTabGroup(){
+    
+  },
+
+
+
+  //READ
   getLocalTabGroups() {
     var _this = this
     console.log("getLocalTabGroups :: ",_this.data)
@@ -36,9 +45,54 @@ export default {
     })
   },
 
-  addTabHubTabGroup(){
-    
+
+  //UPDATE
+  setLocalTabGroups(){
+    let _data = this.data
+    console.log(this.data);
+    return new Promise((resolve, reject) =>{
+      debugger;
+      chrome.storage.local.set({key : _data}, function(){
+       if (_data.length >= 0) {
+          resolve("success setData()")
+        }
+        else {
+          reject('failure setData()')
+        }
+      })
+    })
   },
+
+  updateTabHubTabGroupTitle(tabGroup, accountDataId){
+    var _this = this;
+    return new Promise(function(resolve, reject){
+      console.log("updateTabHubTabGroupTitle :: tabGroup", [tabGroup]);
+
+      $.ajax({
+        method : 'PUT',
+        url : 'http://localhost:9091/ajax/account/'+accountDataId+'/tabGroup',
+        contentType : 'application/json',
+        dataType : 'json',
+        data : JSON.stringify([tabGroup]),
+        success : function(response){
+          console.log("updateTabHubTabGroupTitle success");
+        },
+        errror : function(response){
+          console.log("updateTabHubTabGroupTitle error :: msg", response);
+        },
+
+      })
+      
+
+    })
+
+  },
+
+
+
+
+  //DELETE
+
 
   setFalseTabGruops(tabGroups){
       console.log("setFalseTabGruops :: this.data", this.data)
@@ -52,10 +106,10 @@ export default {
       }
   },
 
-    filterSyncedTabGroup(){
-        console.log("TabHubModel.filterSyncedTabGroup this.data :: ",this.data);
-        this.data = this.data.filter(item => item.id === -1)
-    },
+  filterSyncedTabGroup(){
+      console.log("TabHubModel.filterSyncedTabGroup this.data :: ",this.data);
+      this.data = this.data.filter(item => item.id === -1)
+  },
 
   async addCreatedData(newTitle){
     let newTabGroup = await this.createNewTabGroup(newTitle)
@@ -112,19 +166,5 @@ export default {
     })
   },
 
-  setLocalTabGroups(){
-    let _data = this.data
-    console.log(this.data);
-    return new Promise((resolve, reject) =>{
-      debugger;
-      chrome.storage.local.set({key : _data}, function(){
-       if (_data.length >= 0) {
-          resolve("success setData()")
-        }
-        else {
-          reject('failure setData()')
-        }
-      })
-    })
-  },
+
 }

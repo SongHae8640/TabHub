@@ -131,7 +131,7 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : false,
+        isLogin : true,
         isTabGroupPage : true,
         isLoginPage : true,
 
@@ -194,10 +194,13 @@
         }
       },
       onChangeTabGroupTitle(tabGroup){
+        console.log("onChangeTabGroupTitle :: tabGroup", tabGroup);
+
         if(this.isLogin){
+          TabGroupModel.updateTabHubTabGroupTitle(tabGroup, this.accountData.id);
 
         }else{
-          LocalTabGroupsModel.changeData(tabGroup)
+          TabGroupModel.setLocalTabGroups();
         }
         ///디비와 싱크 때 따로 타이틀만 수정하기
       },

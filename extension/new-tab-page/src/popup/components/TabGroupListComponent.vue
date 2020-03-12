@@ -2,7 +2,7 @@
 	<div>
 		<div v-for="(tabGroup, index) in data"  v-if="tabGroup.category===type">
 	
-				<div class="TG row">
+		<div class="TG row">
           <div class="col-8">
           	<button v-on:click="onOpenTabGroup(tabGroup)">open</button>
             <span class="TG-title" v-show="!tabGroup.isOpen">{{tabGroup.title}}</span>
@@ -43,11 +43,6 @@
             </div>
 	       </div>
         </div>
-
-
-
-
-
 		</div>
 	</div>
 </template>
