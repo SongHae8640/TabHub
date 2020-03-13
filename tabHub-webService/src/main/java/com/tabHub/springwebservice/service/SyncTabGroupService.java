@@ -22,6 +22,8 @@ public class SyncTabGroupService {
 	@Autowired
 	SyncTabGroupMapper syncTabGroupMapper;
 
+	////////////
+	//CREATE
 	public List<SyncTabGroupEntity> addTabGroups(List<SyncTabGroupEntity> newSyncTabGroups) {
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		User user = (User) auth.getPrincipal();
@@ -32,13 +34,9 @@ public class SyncTabGroupService {
 			syncTabGroupMapper.insertTabGroup(syncTabGroupEntity);
 			
 			///id 받아서 같이 insert 
-			List<SyncTabEntity> tabs = syncTabGroupEntity.getTabs();
-			for (SyncTabEntity tab : tabs) {
-				tab.setSyncId(syncTabGroupEntity.getId());
-				log.debug("tab : {}", tab);
-				syncTabGroupMapper.insertTab(tab);
-				
-			}
+			insertTabs(syncTabGroupEntity);
+			
+
 			
 			//System.out.println();
 		}
@@ -49,6 +47,40 @@ public class SyncTabGroupService {
 		
 	}
 	
+	////////////
+	//READ
+	public List<SyncTabGroupEntity> selectTabGroupsByAccountId(String accountId){
+		// 합쳐진 탭그룹 조회
+		List<SyncTabGroupEntity> sumSyncTabGroup = syncTabGroupMapper.selectTabGroupListByAccountId(accountId);
+		
+		for (SyncTabGroupEntity syncTabGroupEntity : sumSyncTabGroup) {
+			List<SyncTabEntity> tabs = syncTabGroupMapper.selectTabListBySyncId(syncTabGroupEntity.getId());
+			syncTabGroupEntity.setTabs(tabs);
+		}
+		
+		return sumSyncTabGroup;
+	}
+	
+	////////////
+	//UPDATE
+	public SyncTabGroupEntity updateTabGroup(SyncTabGroupEntity updateTabGroup) {
+		//제목변경
+		syncTabGroupMapper.updateTabGroupTitle(updateTabGroup);
+		
+		
+		//탭그룹에 해당하는 탭 삭제
+		syncTabGroupMapper.deleteTabsByTabGroupId(updateTabGroup.getId());
+		
+		
+		//탭 추가
+		insertTabs(updateTabGroup);		
+		
+		
+		return null;
+	}
+
+	////////////
+	//DELETE
 	public List<SyncTabGroupEntity> deleteTabGroups(List<SyncTabGroupEntity> deletedTabGroups) {
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		User user = (User) auth.getPrincipal();
@@ -69,23 +101,30 @@ public class SyncTabGroupService {
 		return selectTabGroupsByAccountId(tempAccountId);
 	}
 	
-	public List<SyncTabGroupEntity> selectTabGroupsByAccountId(String accountId){
-		// 합쳐진 탭그룹 조회
-		List<SyncTabGroupEntity> sumSyncTabGroup = syncTabGroupMapper.selectTabGroupListByAccountId(accountId);
-		
-		for (SyncTabGroupEntity syncTabGroupEntity : sumSyncTabGroup) {
-			List<SyncTabEntity> tabs = syncTabGroupMapper.selectTabListBySyncId(syncTabGroupEntity.getId());
-			syncTabGroupEntity.setTabs(tabs);
-		}
-		
-		return sumSyncTabGroup;
-	}
+	
+
 
 	public void deletTabGroupsAndTabs() {
 		syncTabGroupMapper.deleteTabGroups();
 		syncTabGroupMapper.deleteTabs();
 		
 	}
-
+	
+	
+	
+	
+	
+	
+	////////////
+	//private method
+	
+	
+	private void insertTabs(SyncTabGroupEntity tabGroupEntity) {
+		for (SyncTabEntity tab : tabGroupEntity.getTabs()) {
+			tab.setSyncId(tabGroupEntity.getId());
+			log.debug("tab : {}", tab);
+			syncTabGroupMapper.insertTab(tab);	
+		}
+	}
 
 }

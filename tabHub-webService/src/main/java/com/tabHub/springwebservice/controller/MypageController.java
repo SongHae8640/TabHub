@@ -69,7 +69,7 @@ public class MypageController {
 	@ResponseBody
 	@CrossOrigin("*")
 	@DeleteMapping("/ajax/account/{accountId}/tabGroups")
-	public List<SyncTabGroupEntity> deleteTabGroups(@PathVariable("accountId") String accountId, List<SyncTabGroupEntity> deletedTabGroups){
+	public List<SyncTabGroupEntity> deleteTabGroups(@PathVariable("accountId") String accountId, @RequestBody List<SyncTabGroupEntity> deletedTabGroups){
 		List<SyncTabGroupEntity> tabGroups = syncTabGroupService.deleteTabGroups(deletedTabGroups);
 		
 		return tabGroups;
@@ -78,11 +78,12 @@ public class MypageController {
 	@ResponseBody
 	@CrossOrigin("*")
 	@PutMapping("/ajax/account/{accountId}/tabGroup")
-	public List<SyncTabGroupEntity> updateTabGroup(@PathVariable("accountId") String accountId, List<SyncTabGroupEntity> updateTabGroups){
-		log.debug("updateTabGroup :: tabGroups",updateTabGroups);
+	public SyncTabGroupEntity updateTabGroup(@PathVariable("accountId") String accountId, @RequestBody SyncTabGroupEntity updateTabGroup){
+		log.debug("updateTabGroup :: tabGroup = " + updateTabGroup.toString());
 		
+		SyncTabGroupEntity updatedTabGroup = syncTabGroupService.updateTabGroup(updateTabGroup);
 		
-		return null;
+		return updatedTabGroup;
 	}
 	
 	

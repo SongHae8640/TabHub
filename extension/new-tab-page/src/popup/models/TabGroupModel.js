@@ -73,7 +73,7 @@ export default {
         url : 'http://localhost:9091/ajax/account/'+accountDataId+'/tabGroup',
         contentType : 'application/json',
         dataType : 'json',
-        data : JSON.stringify([tabGroup]),
+        data : JSON.stringify(tabGroup),
         success : function(response){
           console.log("updateTabHubTabGroupTitle success");
         },

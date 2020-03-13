@@ -28,4 +28,6 @@ public interface SyncTabGroupMapper {
 
 	public void deleteTabGroupByTabGroupId(Long syncId);
 
+	public void updateTabGroupTitle(SyncTabGroupEntity updateTabGroup);
+
 }

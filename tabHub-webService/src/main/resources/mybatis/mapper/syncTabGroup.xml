@@ -3,9 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tabHub.springwebservice.model.mapper.SyncTabGroupMapper">
-
-
-    
+	<!-- CREATE -->
     <insert id="insertTabGroup" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
 	    INSERT webservice.SYNC_TG(
 			ID, 
@@ -41,6 +39,7 @@
 		);
     </insert>
 
+	<!-- READ -->
     <select id="selectTabGroupListByAccountId" parameterType="String" resultType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
     	SELECT 
     	       ID
@@ -63,6 +62,16 @@
     	 WHERE SYNC_ID = #{syncId };
     </select>
     
+    <!-- UPDATE -->
+    <update id="updateTabGroupTitle" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+    	UPDATE webservice.SYNC_TG
+		   SET TITLE = #{title}
+		 WHERE ID = #{id}
+    
+    </update>
+    
+    
+    <!-- DELETE -->
     <delete id="deleteTabsByTabGroupId">
     	DELETE 
 		  FROM webservice.SYNC_TAB  
