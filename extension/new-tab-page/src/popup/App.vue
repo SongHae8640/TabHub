@@ -171,26 +171,28 @@
 
         await TabGroupModel.addCreatedData(title)
         if(this.isLogin){
-          TabGroupModel.addTabHubTabGroup();
-        }else{
-          TabGroupModel.setLocalTabGroups();
-        }
-        this.fetchChromeTabGroups();
-      },
-      async onDeleteTabGroup(tabGroupId){
-        await TabGroupModel.deleteData(tabGroupId)
-        if(this.isLogin){
-
+          await TabGroupModel.addTabHubTabGroup(this.accountData.id);
         }else{
           await TabGroupModel.setLocalTabGroups();
         }
-        this.fetchChromeTabGroups()
+        this.fetchChromeTabGroups();
+      },
+      async onDeleteTabGroup(tabGroup){
+        if(this.isLogin){
+          await TabGroupModel.deleteTabHubTabGroup(tabGroup, this.accountData.id);
+        }else{
+          await TabGroupModel.deleteLocalTabGroup(tabGroup)
+          await TabGroupModel.setLocalTabGroups();
+        }
+        console.log("onDeleteTabGroup :: deleteTabGroup")
+        this.fetchChromeTabGroups();
       },
       onChangeTabGroup(tabGroup){
-        if(isLogin){
-
+        console.log("onChangeTabGroup :: tabGroup", tabGroup);
+        if(this.isLogin){
+          TabGroupModel.updateTabHubTabGroupTitle(tabGroup, this.accountData.id);
         }else{
-          LocalTabGroupsModel.changeData(tabGroup)
+          TabGroupModel.changeData(tabGroup)
         }
       },
       onChangeTabGroupTitle(tabGroup){

@@ -22,7 +22,7 @@
 
           <div class="TG-tabs container" v-show="tabGroup.isOpen" >
           	<div class="TG-tab row">
-          		<button class="btn-delete-TG col-3 offset-3" v-on:click="onDeleteTabGroup(tabGroup.localId)">delete</button>
+          		<button class="btn-delete-TG col-3 offset-3" v-on:click="onDeleteTabGroup(tabGroup)">delete</button>
           		<button class="btn-sync-TG col-3" v-on:click="onSyncTabGroup(tabGroup)">sync</button>
           	</div>
 			  <draggable handle=".handle" v-model=tabGroup.tabs @end="checkMove(tabGroup)">

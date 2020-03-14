@@ -2,10 +2,39 @@ export default {
   data: [],
 
   //CREATE
-  addTabHubTabGroup(){
-    
-  },
-
+  addTabHubTabGroup(accountDataId){
+    var _this = this;
+    return new Promise(function(resolve, reject){
+        /// id가 -1인 것만 필터링
+        _this.filterSyncedTabGroup();
+        console.log("addTabHubTabGroup this.data :: ",_this.data);
+        //합친 tabGroup을 허브에 저장
+        
+        $.ajax({
+            method : 'POST',
+            url : 'http://localhost:9091/ajax/account/'+accountDataId+'/tabGroups',
+            contentType : 'application/json',
+            dataType : 'json',
+            data : JSON.stringify(_this.data) ,
+            success : function(response){
+                for(var i = 0 ; i < response.length ; i++){
+                    response[i].isOpen = false;
+                    response[i].isEditedTitle = false
+                    for(var j = 0 ; j < response[i].tabs.length ; j++){
+                        response[i].tabs[j].isEditMode = false;
+                    }
+                }
+                console.log(response)
+                resolve(response)
+            },
+            errror : function(response){
+                console.log(response)
+                resolve(response)
+            },
+        })
+        
+    })
+},
 
 
   //READ
@@ -64,7 +93,6 @@ export default {
   },
 
   updateTabHubTabGroupTitle(tabGroup, accountDataId){
-    var _this = this;
     return new Promise(function(resolve, reject){
       console.log("updateTabHubTabGroupTitle :: tabGroup", [tabGroup]);
 
@@ -76,9 +104,11 @@ export default {
         data : JSON.stringify(tabGroup),
         success : function(response){
           console.log("updateTabHubTabGroupTitle success");
+          resolve("success updateTabHubTabGroupTitle");
         },
         errror : function(response){
           console.log("updateTabHubTabGroupTitle error :: msg", response);
+          reject("failure updateTabHubTabGroupTitle")
         },
 
       })
@@ -88,12 +118,38 @@ export default {
 
   },
 
-
-
-
   //DELETE
+  deleteTabHubTabGroup(tabGroup, accountDataId) {
+
+    return new Promise(function(resolve, reject){
+      console.log("deleteTabHubTabGroup :: deletedTabGroup =", tabGroup);
+
+      $.ajax({
+        method : 'DELETE',
+        url : 'http://localhost:9091/ajax/account/'+accountDataId+'/tabGroup',
+        contentType : 'application/json',
+        dataType : 'json',
+        data : JSON.stringify(tabGroup),
+        success : function(response){
+          resolve(response);
+          console.log("deleteTabHubTabGroup success :: response=",response);
+        },
+        errror : function(response){
+          console.log("deleteTabHubTabGroup error :: msg", response);
+          reject("failure updateTabHubTabGroupTitle")
+        },
+      })
+    })
+  },
+  async deleteLocalTabGroup(tabGroup) {
+    this.data = this.data.filter(item => item.localId !== tabGroup.localId)
+  },
 
 
+
+
+  ///////////////////////////////////
+  
   setFalseTabGruops(tabGroups){
       console.log("setFalseTabGruops :: this.data", this.data)
       this.data = tabGroups;
@@ -140,13 +196,8 @@ export default {
       })
     })
   },  
-  async deleteData(tabGroupId) {
-    await this.filterData(tabGroupId)
-  },
 
-  filterData(tabGroupId){
-    this.data = this.data.filter(item => item.localId !== tabGroupId)
-  },
+
   async changeData(tabGroup,data){
     let tempData =[]
 

@@ -81,24 +81,20 @@ public class SyncTabGroupService {
 
 	////////////
 	//DELETE
-	public List<SyncTabGroupEntity> deleteTabGroups(List<SyncTabGroupEntity> deletedTabGroups) {
+	public void deleteTabGroups(SyncTabGroupEntity deletedTabGroup) {
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		User user = (User) auth.getPrincipal();
 		String tempAccountId = "user";
 		
-//		for (SyncTabGroupEntity deletedTabGroup : deletedTabGroups) {
-//			
-//			///나중에 삭제가 아니라 비활성화 시킬 수 도 있으니까 cascade 안하고 따로 해줌
-//			//tab먼저 삭제
-//			syncTabGroupMapper.deleteTabsByTabGroupId(deletedTabGroup.getId());
-//			
-//			//tabGroup 삭제
-//			syncTabGroupMapper.deleteTabGroupByTabGroupId(deletedTabGroup.getId());
-//		}
-
 		
-		//삭제된 이후의 탭그룹 조회
-		return selectTabGroupsByAccountId(tempAccountId);
+		///나중에 삭제가 아니라 비활성화 시킬 수 도 있으니까 cascade 안하고 따로 해줌, accountId랑 같이 조건 넣어서 사용
+		//tab먼저 삭제
+		syncTabGroupMapper.deleteTabsByTabGroupId(deletedTabGroup.getId());
+		
+		//tabGroup 삭제
+		syncTabGroupMapper.deleteTabGroupByTabGroupId(deletedTabGroup.getId());
+	
+
 	}
 	
 	
@@ -117,7 +113,6 @@ public class SyncTabGroupService {
 	
 	////////////
 	//private method
-	
 	
 	private void insertTabs(SyncTabGroupEntity tabGroupEntity) {
 		for (SyncTabEntity tab : tabGroupEntity.getTabs()) {
