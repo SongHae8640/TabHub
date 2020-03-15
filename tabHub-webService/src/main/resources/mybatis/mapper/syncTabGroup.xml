@@ -63,9 +63,10 @@
     </select>
     
     <!-- UPDATE -->
-    <update id="updateTabGroupTitle" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
+    <update id="updateTabGroup" parameterType="com.tabHub.springwebservice.entity.SyncTabGroupEntity">
     	UPDATE webservice.SYNC_TG
-		   SET TITLE = #{title}
+		   SET TITLE = #{title},
+		       USE_DATE = #{useDate}
 		 WHERE ID = #{id}
     
     </update>

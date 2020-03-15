@@ -190,7 +190,7 @@
       onChangeTabGroup(tabGroup){
         console.log("onChangeTabGroup :: tabGroup", tabGroup);
         if(this.isLogin){
-          TabGroupModel.updateTabHubTabGroupTitle(tabGroup, this.accountData.id);
+          TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
         }else{
           TabGroupModel.changeData(tabGroup)
         }
@@ -199,8 +199,7 @@
         console.log("onChangeTabGroupTitle :: tabGroup", tabGroup);
 
         if(this.isLogin){
-          TabGroupModel.updateTabHubTabGroupTitle(tabGroup, this.accountData.id);
-
+          TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
         }else{
           TabGroupModel.setLocalTabGroups();
         }
@@ -209,7 +208,7 @@
       async onSortTabGroup(tabGroup){
         await TabGroupModel.sortDataByDate();
         if(this.isLogin){
-
+          await TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
         }else{
           console.log(this.tabGroups);
           await TabGroupModel.setLocalTabGroups();

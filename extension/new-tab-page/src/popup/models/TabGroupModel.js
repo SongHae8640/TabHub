@@ -92,9 +92,9 @@ export default {
     })
   },
 
-  updateTabHubTabGroupTitle(tabGroup, accountDataId){
+  updateTabHubTabGroup(tabGroup, accountDataId){
     return new Promise(function(resolve, reject){
-      console.log("updateTabHubTabGroupTitle :: tabGroup", [tabGroup]);
+      console.log("updateTabHubTabGroupTitle :: tabGroup", tabGroup);
 
       $.ajax({
         method : 'PUT',
@@ -103,12 +103,12 @@ export default {
         dataType : 'json',
         data : JSON.stringify(tabGroup),
         success : function(response){
-          console.log("updateTabHubTabGroupTitle success");
-          resolve("success updateTabHubTabGroupTitle");
+          console.log("updateTabHubTabGroup success");
+          resolve("success updateTabHubTabGroup");
         },
         errror : function(response){
-          console.log("updateTabHubTabGroupTitle error :: msg", response);
-          reject("failure updateTabHubTabGroupTitle")
+          console.log("updateTabHubTabGroup error :: msg", response);
+          reject("failure updateTabHubTabGroup")
         },
 
       })

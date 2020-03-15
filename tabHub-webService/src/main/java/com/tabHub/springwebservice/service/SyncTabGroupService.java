@@ -65,8 +65,8 @@ public class SyncTabGroupService {
 	//UPDATE
 	public SyncTabGroupEntity updateTabGroup(SyncTabGroupEntity updateTabGroup) {
 		//제목변경
-		syncTabGroupMapper.updateTabGroupTitle(updateTabGroup);
-		
+		syncTabGroupMapper.updateTabGroup(updateTabGroup);
+	
 		
 		//탭그룹에 해당하는 탭 삭제
 		syncTabGroupMapper.deleteTabsByTabGroupId(updateTabGroup.getId());
