@@ -38,8 +38,8 @@
 			 </draggable>
 
             <div class="TG-tab row" >
-            	<input type="text" id="new-tab-url" placeholder="New Tab Url" class="col-9 offset-1" v-model="newTabUrl">
-    					<button id="btn-add-tab" class="col-1" v-on:click="onAddTab(tabGroup)">+</button>
+				<input type="text" id="new-tab-url" placeholder="New Tab Url" class="col-9 offset-1" v-model="newTabUrl">
+				<button id="btn-add-tab" class="col-1" v-on:click="onAddTab(tabGroup)">+</button>
             </div>
 	       </div>
         </div>

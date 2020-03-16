@@ -36,7 +36,7 @@
         <div v-else>
           <tab-group-list v-bind:data="tabGroups" v-bind:type="selectedTabsMenu" 
           v-on:@delete="onDeleteTabGroup" v-on:@change="onChangeTabGroup" 
-          v-on:@changeTitle="onChangeTabGroupTitle" v-on:@addTab="onAddTab" 
+          v-on:@changeTitle="onChangeTabGroup" v-on:@addTab="onAddTab" 
           v-on:@sort="onSortTabGroup"></tab-group-list>
           <tab-group-add-box v-bind:title="newTabGroupTitle" v-on:@addTabGroup="onAddTabGroup" v-show="isFavorite()"></tab-group-add-box>
         </div>
@@ -192,18 +192,8 @@
         if(this.isLogin){
           TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
         }else{
-          TabGroupModel.changeData(tabGroup)
-        }
-      },
-      onChangeTabGroupTitle(tabGroup){
-        console.log("onChangeTabGroupTitle :: tabGroup", tabGroup);
-
-        if(this.isLogin){
-          TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
-        }else{
           TabGroupModel.setLocalTabGroups();
         }
-        ///디비와 싱크 때 따로 타이틀만 수정하기
       },
       async onSortTabGroup(tabGroup){
         await TabGroupModel.sortDataByDate();
@@ -218,9 +208,9 @@
       },
       onAddTab(tabGroup){
         if(this.isLogin){
-
+          TabGroupModel.updateTabHubTabGroup(tabGroup, this.accountData.id);
         }else{
-          TabGroupModel.changeData(tabGroup,this.tabGroups)
+          //TabGroupModel.changeData(tabGroup,this.tabGroups)
           TabGroupModel.setLocalTabGroups();
         }
       },

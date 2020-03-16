@@ -198,6 +198,15 @@ export default {
   },  
 
 
+
+
+  sortDataByDate(){
+    this.data.sort(function(a,b){
+      return a['useDate'] < b['useDate'] ? 1 : -1;
+    })
+  },
+
+/*
   async changeData(tabGroup,data){
     let tempData =[]
 
@@ -211,11 +220,7 @@ export default {
     this.data = tempData;
   },
 
-  sortDataByDate(){
-    this.data.sort(function(a,b){
-      return a['useDate'] < b['useDate'] ? 1 : -1;
-    })
-  },
+*/
 
 
 }
