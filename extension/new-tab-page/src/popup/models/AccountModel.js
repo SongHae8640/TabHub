@@ -49,6 +49,8 @@ export default{
     },
 
     logout(){
+        return true;
+        /*
         return new Promise(function(resolve, reject){
             //비동기 통신
             $.ajax({
@@ -64,5 +66,6 @@ export default{
 
             })
         })
+        */
     }
 }

@@ -131,7 +131,7 @@
         newTabGroupTitle : '',
       	selectedTabsMenu : '',
         tabGroups : [],
-        isLogin : true,
+        isLogin : false,
         isTabGroupPage : true,
         isLoginPage : true,
 
@@ -251,6 +251,10 @@
           this.isLoginPage = false
 
           //sync 통신 
+          await TabGroupModel.addTabHubTabGroup(this.accountData.id);
+
+          await TabGroupModel.clearLocalTabGroups();
+          this.fetchChromeTabGroups();
 
           //message 통신
 
@@ -273,6 +277,8 @@
           this.isLogin = false
           this.isTabGroupPage = false
           this.isLoginPage = true
+
+          await TabGroupModel.clearLocalTabGroups();
         }else{
 
         }

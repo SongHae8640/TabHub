@@ -206,6 +206,11 @@ export default {
     })
   },
 
+  clearLocalTabGroups(){
+    this.data = [];
+    this.setLocalTabGroups();
+  }
+
 /*
   async changeData(tabGroup,data){
     let tempData =[]
