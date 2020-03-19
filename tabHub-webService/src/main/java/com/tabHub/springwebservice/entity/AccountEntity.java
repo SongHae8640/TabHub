@@ -2,17 +2,18 @@ package com.tabHub.springwebservice.entity;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Setter
+@Data
 public class AccountEntity {
 	private String id;
 	private String password;
 	private String email;
-	private String emailCheckCode;
 	private String role;
 	
 	public AccountEntity() {}
@@ -28,13 +29,5 @@ public class AccountEntity {
 		this.id = user.getUsername();
 		this.password = user.getPassword();
 	}
-
-	@Override
-	public String toString() {
-		return "AccountEntity [id=" + id + ", password=" + password + ", email=" + email + ", emailCheckCode="
-				+ emailCheckCode + ", role=" + role + "]";
-	}
-
-	
 	
 }

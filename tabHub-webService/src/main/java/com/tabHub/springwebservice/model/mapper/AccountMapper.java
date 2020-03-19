@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.tabHub.springwebservice.entity.AccountEmailCheckEntity;
 import com.tabHub.springwebservice.entity.AccountEntity;
 
 @Repository
@@ -18,6 +19,12 @@ public interface AccountMapper {
 
 	void deleteAccountById(String id);
 	
-	void updateAccountRoleToUser(AccountEntity accountEntity);
+	void updateAccountRoleToUser(AccountEmailCheckEntity accountEntity);
+
+	void insertAccountEmailCheck(AccountEmailCheckEntity accountEmailCheckEntity);
+
+	int selectAccountEmailCheckCount(AccountEmailCheckEntity accountEmailCheckEntity);
+
+	void deleteAccountEmailCheckById(AccountEmailCheckEntity accountEmailCheckEntity);
 
 }

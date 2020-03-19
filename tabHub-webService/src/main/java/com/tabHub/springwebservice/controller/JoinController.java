@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.tabHub.springwebservice.entity.AccountEmailCheckEntity;
 import com.tabHub.springwebservice.entity.AccountEntity;
 import com.tabHub.springwebservice.service.AccountService;
 import com.tabHub.springwebservice.service.EmailService;
@@ -29,8 +31,7 @@ public class JoinController {
 	@Autowired
 	AccountService accountService;
 	
-	@Autowired
-	private EmailService emailService;
+
 	
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;
@@ -61,8 +62,6 @@ public class JoinController {
 		//계정 추가
 		accountService.insertAccount(accountEntity);
 		
-		//이메일 발송
-		emailService.sendMail(accountEntity.getEmail(), "Tab Hub 가입을 축하드립니다.", "email check code : "+accountEntity.getEmailCheckCode());
 		
 		
 		///mav로 변경해서 로그인 정보랑 같이 보냄
@@ -76,17 +75,16 @@ public class JoinController {
 	
 	
 	@PostMapping("/account/joinCheck")
-	public String join(@RequestParam String confirmCode, Principal principal) {
+	public String join(@RequestParam String confirmEmailCode, Principal principal) {
 		log.debug("principal name =  {}, {}",principal.getName(), principal.toString());
 		
 		UserDetails user = userDetailsServiceImpl.loadUserByUsername(principal.getName());
 		
-		AccountEntity accountEntity = new AccountEntity(user);
-		accountEntity.setPassword(accountEntity.getPassword().substring(6));
-		accountEntity.setEmailCheckCode(confirmCode);
-		log.debug(accountEntity.toString());
+		AccountEmailCheckEntity accountEmailCheckEntity = new AccountEmailCheckEntity();
+		accountEmailCheckEntity.setAccountId(user.getUsername());
+		accountEmailCheckEntity.setCheckCode(confirmEmailCode);
 		
-		int result = accountService.AuthenticateByEamil(accountEntity);
+		int result = accountService.AuthenticateByEamil(accountEmailCheckEntity);
 		
 		if(result == 0) {
 			return "redirect:/account/joinCheck";

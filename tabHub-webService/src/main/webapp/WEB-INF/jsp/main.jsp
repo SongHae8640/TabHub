@@ -14,6 +14,7 @@
         <a href="/account/login">login</a>
         <a href="/account/join">join</a>
         <a href="/account/logout">logout</a>
+        <a href="/mypage">mypage</a>
       </div>
     </div>
     <div class="row">

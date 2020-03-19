@@ -19,7 +19,7 @@
 		          	<span>예시 로 이메일 확인 코드를 보냈습니다. 받은 코드를 입력해 주세요.</span>  
 		          </div>
 		          <div class="row" >
-		            <input type="text" class="col-3 form-control" id="confirm-code" name="confirmCode" placeholder="code">
+		            <input type="text" class="col-3 form-control" id="confirm-code" name="confirmEmailCode" placeholder="code">
 		            <button type="submit" class="col-3 btn btn-secondary">Check</button>
 		            <span>fail code</span>
 		          </div>

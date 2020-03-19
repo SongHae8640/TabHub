@@ -14,15 +14,33 @@
     </select>
     
     <insert id="insertAccount" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
-    	INSERT INTO webservice.account (ID, PASSWORD, EMAIL, ROLE, CHECK_CODE) 
-    	VALUE (#{id}, #{password}, #{email},'UNCERTIFIED' , #{emailCheckCode}); 
+    	INSERT INTO webservice.account (ID, PASSWORD, EMAIL, ROLE) 
+    	VALUE (#{id}, #{password}, #{email},'UNCERTIFIED'); 
     </insert>
+    
+    <insert id="insertAccountEmailCheck" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity">
+    	INSERT INTO webservice.account_email_check(account_id, check_code)
+    	 VALUE (#{accountId}, #{checkCode})
+    </insert>
+    <select id="selectAccountEmailCheckCount" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity" resultType = "java.lang.Integer">
+    	SELECT count(*)
+    	  FROM webservice.account_email_check
+    	 WHERE account_id = #{accountId}
+    	   AND check_code = #{checkCode} 
+    </select>
     
     <delete id="deleteAccountById" parameterType="String">
     	DELETE FROM webservice.account WHERE ID = #{id};
     </delete>
     
-    <update id="upodateAccountRoleToUser" parameterType="com.tabHub.springwebservice.entity.AccountEntity">
-    	UPDATE webservice.account SET ROLE = 'USER' WHERE ID =#{id} AND PASSWORD = #{password} AND CHECK_CODE = #{emailCheckCode}
+    <update id="updateAccountRoleToUser" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity">
+    	UPDATE webservice.account 
+    	   SET ROLE = 'USER' 
+    	 WHERE ID =#{accountId} 
     </update>
+    <delete id="deleteAccountEmailCheckById" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity">
+    	DELETE 
+    	  FROM webservice.account_email_check 
+    	 WHERE account_id = #{accountId}
+    </delete>
 </mapper>
