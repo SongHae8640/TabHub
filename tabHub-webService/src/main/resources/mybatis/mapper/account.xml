@@ -30,7 +30,7 @@
     </select>
     
     <delete id="deleteAccountById" parameterType="String">
-    	DELETE FROM webservice.account WHERE ID = #{id};
+    	DELETE FROM webservice.account WHERE ID = #{id}
     </delete>
     
     <update id="updateAccountRoleToUser" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity">
@@ -38,9 +38,15 @@
     	   SET ROLE = 'USER' 
     	 WHERE ID =#{accountId} 
     </update>
-    <delete id="deleteAccountEmailCheckById" parameterType="com.tabHub.springwebservice.entity.AccountEmailCheckEntity">
+    <delete id="deleteAccountEmailCheckById" parameterType="String">
     	DELETE 
     	  FROM webservice.account_email_check 
     	 WHERE account_id = #{accountId}
     </delete>
+    
+    <select id="selectAccountCountById" parameterType="String" resultType="Integer">
+    	SELECT count(*) 
+		  FROM webservice.account
+		 WHERE id = #{id}
+    </select>
 </mapper>

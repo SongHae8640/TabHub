@@ -48,11 +48,18 @@ public class JoinController {
 			@RequestParam String rePw, 
 			@RequestParam String email) {
 		
+		//유효성 검사
+		
 		//pw와 rePw 일치 여부 확인
 		if(!pw.equals(rePw)) {
 			
 			///에러 메세지와 함께
-			//join 페이지로 이동
+			return "join";
+		}
+		
+		//아이디 중복 검사
+		if(accountService.isJoinedAccount(id)) {
+			///에러 메세지와 함께
 			return "join";
 		}
 		
@@ -65,7 +72,7 @@ public class JoinController {
 		
 		
 		///mav로 변경해서 로그인 정보랑 같이 보냄
-		return "joinCheck";
+		return "redirect:/account/login";
 	}
 	
 	@GetMapping("/account/joinCheck")

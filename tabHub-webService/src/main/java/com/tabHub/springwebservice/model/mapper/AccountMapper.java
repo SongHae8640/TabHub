@@ -25,6 +25,8 @@ public interface AccountMapper {
 
 	int selectAccountEmailCheckCount(AccountEmailCheckEntity accountEmailCheckEntity);
 
-	void deleteAccountEmailCheckById(AccountEmailCheckEntity accountEmailCheckEntity);
+	void deleteAccountEmailCheckById(String string);
+
+	int selectAccountCountById(String id);
 
 }

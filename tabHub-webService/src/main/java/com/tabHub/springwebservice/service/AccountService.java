@@ -45,6 +45,7 @@ public class AccountService {
 	}
 
 	public void deleteAccountById(String id) {
+		accountMapper.deleteAccountEmailCheckById(id);
 		accountMapper.deleteAccountById(id);	
 	}
 	
@@ -58,11 +59,17 @@ public class AccountService {
 		accountMapper.updateAccountRoleToUser(accountEmailCheckEntity);
 		
 		//이메일 인증 테이블에서 삭제
-		accountMapper.deleteAccountEmailCheckById(accountEmailCheckEntity);
+		accountMapper.deleteAccountEmailCheckById(accountEmailCheckEntity.getAccountId());
 		
 		
 		return 1;
 	}
+
+	public boolean isJoinedAccount(String id) {
+		if(accountMapper.selectAccountCountById(id) != 0) return true;
+		return false;
+	}
+
 
 	
 	

@@ -1,5 +1,6 @@
 package com.tabHub.springwebservice.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,14 @@ public class JoinControllerTest {
 		accountService.insertAccount(accountEntity);
 		
 	
+	}
+	
+	@Test
+	public void joinedAccountCheck() {
+		
+		boolean isJoinedAccount = accountService.isJoinedAccount("test");
+		
+		assertEquals(true, isJoinedAccount);
 	}
 	
 	//@Test
